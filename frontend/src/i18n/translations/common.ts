@@ -2,12 +2,12 @@ import type { Translations } from '../I18nContext';
 
 export const common: Translations = {
   appTitle: {
-    fa: 'Night Ecosystem',
+    fa: 'اکوسیستم نایت',
     en: 'Night Ecosystem',
-    tr: 'Night Ecosystem',
-    zh: 'Night Ecosystem',
-    hi: 'Night Ecosystem',
-    ar: 'Night Ecosystem',
+    tr: 'Night Ekosistemi',
+    zh: 'Night 生态系统',
+    hi: 'Night इकोसिस्टम',
+    ar: 'منظومة Night',
   },
 
   brandName: {
@@ -81,5 +81,40 @@ export const common: Translations = {
     hi: 'सर्वर कनेक्शन त्रुटि। कृपया पुनः प्रयास करें।',
     ar: 'خطأ في الاتصال بالخادم. يرجى المحاولة مرة أخرى.',
   },
+
+  authContextMissing: {
+    fa: 'سیستم احراز هویت در دسترس نیست.',
+    en: 'Auth context is not available.',
+    tr: 'Kimlik doğrulama sistemi mevcut değil.',
+    zh: '认证系统不可用。',
+    hi: 'प्रमाणीकरण प्रणाली उपलब्ध नहीं है।',
+    ar: 'نظام المصادقة غير متاح.',
+  },
+
+  network: {
+    fa: 'شبکه',
+    en: 'Network',
+    tr: 'Ağ',
+    zh: '网络',
+    hi: 'नेटवर्क',
+    ar: 'الشبكة',
+  },
+
+  testnet: {
+    fa: 'تست‌نت / Sandbox',
+    en: 'Testnet / Sandbox',
+    tr: 'Testnet / Sandbox',
+    zh: '测试网 / Sandbox',
+    hi: 'टेस्टनेट / Sandbox',
+    ar: 'شبكة الاختبار / Sandbox',
+  },
+
+  mainnet: {
+    fa: 'مین‌نت',
+    en: 'Mainnet',
+    tr: 'Mainnet',
+    zh: '主网',
+    hi: 'मेननेट',
+    ar: 'الشبكة الرئيسية',
+  },
 };
-    
