@@ -1,4 +1,4 @@
-# 🚀 Development Guide - Pi Decentralized Government Project
+# 🚀 Development Guide - NIGHT.PI ECOSYSTEM
 
 This document provides instructions for setting up and developing the project in both local and containerized environments.
 
