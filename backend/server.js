@@ -24,7 +24,7 @@ app.set('trust proxy', 1);
 // Pi Browser Guard Config
 // -------------------------
 
-const REQUIRED_PI_BROWSER_DOMAIN = 'pinightpi.github.io';
+const REQUIRED_PI_BROWSER_DOMAIN = 'nightdotpi.github.io';
 const REQUIRED_PI_BROWSER_APP_URL = `https://${REQUIRED_PI_BROWSER_DOMAIN}`;
 
 const PI_BROWSER_DEEP_LINK = `pi://browser?url=${encodeURIComponent(
@@ -200,7 +200,7 @@ app.use((req, res, next) => {
 // -------------------------
 
 const defaultAllowedOrigins = [
-  'https://pinightpi.github.io',
+  'https://nightdotpi.github.io',
   'https://nightez2278.pinet.com',
   'https://night.bonto.run',
   'https://sandbox.minepi.com',
