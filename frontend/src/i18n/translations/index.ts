@@ -12,6 +12,16 @@ import { shop } from './shop';
 import { payment } from './payment';
 import { tasks } from './tasks';
 import { footer } from './footer';
+import { languageSwitcher } from './languageSwitcher';
+import { piHomeLogin } from './piHomeLogin';
+import { piPaymentPanel } from './piPaymentPanel';
+import { signIn } from './signIn';
+import { header } from './header';
+import { homePage } from './homePage';
+import { digPage } from './digPage';
+import { success } from './success';
+import { history } from './history';
+import { productCard } from './productCard';
 
 export const translations: Translations = {
   ...common,
@@ -26,4 +36,14 @@ export const translations: Translations = {
   ...payment,
   ...tasks,
   ...footer,
+  ...languageSwitcher,
+  ...piHomeLogin,
+  ...piPaymentPanel,
+  ...signIn,
+  ...header,
+  ...homePage,
+  ...digPage,
+  ...success,
+  ...history,
+  ...productCard,
 };
