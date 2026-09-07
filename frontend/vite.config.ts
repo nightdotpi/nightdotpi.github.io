@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
   return {
     /**
      * برای GitHub User Page مثل:
-     * https://pinightpi.github.io
+     * https://nightdotpi.github.io
      * و همچنین دامنه PiNet:
      * https://nightez2278.pinet.com
      * مقدار base باید '/' باشد.
