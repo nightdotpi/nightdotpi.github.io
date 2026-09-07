@@ -3,113 +3,328 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms of Service - PiDao</title>
+  <title>Terms of Service — Night Ecosystem</title>
+  <meta name="description" content="Terms of Service for Night Ecosystem (Night Protocol, NightGrid, NightCap, NightAgent)." />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.7;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 32px 20px;
-      color: #1f2937;
-      background: #ffffff;
+    :root{
+      --bg:#0b1020;
+      --text:#e8ecff;
+      --muted:#b9c2ffcc;
+      --accent:#7c5cff;
+      --border:rgba(255,255,255,0.08);
     }
-
-    h1, h2 {
-      color: #4c1d95;
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1200px 700px at 20% 10%, rgba(124,92,255,0.25), transparent 55%),
+                  radial-gradient(900px 600px at 90% 20%, rgba(0,209,255,0.18), transparent 50%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.7;
     }
-
-    a {
-      color: #673ab7;
+    a{ color:#8ae1ff; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    header, main, footer{
+      max-width:1100px;
+      margin:0 auto;
+      padding:24px 20px;
     }
-
-    .date {
-      color: #6b7280;
-      font-size: 14px;
+    header{ padding-top:44px; padding-bottom:14px; }
+    .badge{
+      display:inline-block;
+      padding:6px 10px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      color:var(--muted);
+      background:rgba(255,255,255,0.03);
+      font-size:13px;
+    }
+    h1{ margin:14px 0 8px; font-size:40px; line-height:1.15; }
+    .subtitle{ color:var(--muted); max-width:920px; }
+    section{
+      background:rgba(255,255,255,0.03);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:20px 20px;
+      margin:14px 0;
+    }
+    h2{ margin:0 0 10px; font-size:22px; }
+    h3{ margin:16px 0 8px; font-size:16px; }
+    p{ margin:10px 0; }
+    ul{ margin:10px 0 10px 18px; }
+    li{ margin:6px 0; }
+    .muted{ color:var(--muted); }
+    .note{
+      border-left:4px solid var(--accent);
+      padding:12px 14px;
+      background:rgba(124,92,255,0.08);
+      border-radius:12px;
+      margin:12px 0;
+      color:var(--muted);
+    }
+    .toc{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:14px;
+    }
+    .toc a{
+      padding:8px 10px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      font-size:13px;
+      color:var(--text);
+    }
+    footer{
+      color:var(--muted);
+      font-size:13px;
+      padding-bottom:40px;
+    }
+    .hr{ height:1px; background:var(--border); margin:16px 0; }
+    @media (max-width: 900px){
+      h1{ font-size:32px; }
     }
   </style>
 </head>
 <body>
+
+<header>
+  <span class="badge">Terms of Service • Night Ecosystem</span>
   <h1>Terms of Service</h1>
-  <p class="date">Last updated: August 2026</p>
-
-  <p>
-    Welcome to PiDao. By using this application, you agree to these Terms of
-    Service. If you do not agree, please do not use the application.
+  <p class="subtitle">
+    These Terms of Service (“Terms”) govern your access to and use of the Night Ecosystem (“Night”, “we”, “us”),
+    including Night Protocol (NTP), NightGrid, NightCap, and NightAgent (collectively, the “Services”).
+    By using the Services, you agree to these Terms.
+  </p>
+  <p class="muted">
+    Effective date: <strong>[INSERT DATE]</strong> • Version: <strong>v0.2</strong> • Domain: <strong>night.pi</strong>
   </p>
 
-  <h2>1. Purpose of the Application</h2>
-  <p>
-    PiDao is an experimental platform for Pi-based participation, voting,
-    digital services, payments, and the gradual development of decentralized
-    governance concepts related to the DIG vision.
-  </p>
+  <div class="toc">
+    <a href="#acceptance">Acceptance</a>
+    <a href="#eligibility">Eligibility</a>
+    <a href="#accounts">Accounts</a>
+    <a href="#content">User Content</a>
+    <a href="#publishing">Public Publishing & Irreversibility</a>
+    <a href="#payments">Payments</a>
+    <a href="#acceptable-use">Acceptable Use</a>
+    <a href="#ip">Intellectual Property</a>
+    <a href="#disclaimers">Disclaimers</a>
+    <a href="#liability">Limitation of Liability</a>
+    <a href="#termination">Termination</a>
+    <a href="#law">Governing Law</a>
+    <a href="#contact">Contact</a>
+  </div>
+</header>
 
-  <h2>2. DIG Vision</h2>
-  <p>
-    DIG, or Decentralized International Government, is currently a vision,
-    concept, and development path. It does not represent an official government,
-    legal authority, or recognized international institution.
-  </p>
+<main>
 
-  <h2>3. User Eligibility</h2>
-  <p>
-    You are responsible for ensuring that your use of PiDao complies with the
-    laws and regulations applicable in your location.
-  </p>
+  <section id="acceptance">
+    <h2>1) Acceptance of Terms</h2>
+    <p>
+      By accessing or using the Services, you confirm that you have read, understood, and agree to be bound by these Terms.
+      If you do not agree, do not use the Services.
+    </p>
+  </section>
 
-  <h2>4. Pi Network Login</h2>
-  <p>
-    Some features may require authentication through Pi Network tools such as
-    Pi SDK. You are responsible for keeping your Pi account and wallet secure.
-  </p>
+  <section id="eligibility">
+    <h2>2) Eligibility</h2>
+    <p>
+      You must be at least <strong>13 years old</strong> (or the minimum legal age in your jurisdiction) to use the Services.
+      If you are using the Services on behalf of an organization, you represent that you have authority to bind that organization to these Terms.
+    </p>
+  </section>
 
-  <h2>5. Voting and Participation</h2>
-  <p>
-    Voting features are experimental and intended to measure community
-    participation. Poll results should not be considered legally binding unless
-    explicitly stated by the project in the future.
-  </p>
+  <section id="accounts">
+    <h2>3) Accounts & Authentication</h2>
+    <p>
+      Some features may require authentication (for example, through third-party login systems integrated into the Services).
+      You are responsible for maintaining the confidentiality of your device, credentials, and wallet access.
+    </p>
+    <ul>
+      <li>You agree not to share or misuse authentication credentials.</li>
+      <li>You are responsible for all activity that occurs under your account.</li>
+      <li>You must promptly notify us if you suspect unauthorized access.</li>
+    </ul>
+  </section>
 
-  <h2>6. Payments and Digital Products</h2>
-  <p>
-    PiDao may provide digital products, tasks, or Pi payment interactions.
-    Payment completion depends on Pi Network infrastructure and related
-    services.
-  </p>
+  <section id="content">
+    <h2>4) User Content</h2>
+    <p>
+      “User Content” includes any text, ideas, messages, links, or other materials you submit, publish, or store through the Services.
+      You retain ownership of your User Content, subject to the license granted below.
+    </p>
 
-  <h2>7. No Financial or Legal Advice</h2>
-  <p>
-    PiDao does not provide financial, investment, legal, or governmental advice.
-    Any participation is at your own discretion and risk.
-  </p>
+    <h3>4.1 License to Operate the Services</h3>
+    <p>
+      You grant Night a worldwide, non-exclusive, royalty-free license to host, store, reproduce, modify (for formatting and technical delivery only),
+      transmit, display, and distribute your User Content solely to operate, improve, and provide the Services.
+    </p>
 
-  <h2>8. Service Availability</h2>
-  <p>
-    We may update, modify, suspend, or discontinue parts of the application at
-    any time, especially because the platform is under active development.
-  </p>
+    <h3>4.2 Responsibility for User Content</h3>
+    <p>
+      You are solely responsible for your User Content and the consequences of publishing it. You represent and warrant that:
+    </p>
+    <ul>
+      <li>You have the rights necessary to submit and publish the User Content.</li>
+      <li>Your User Content does not violate any laws, third-party rights, or these Terms.</li>
+      <li>You understand that public content may be visible globally and may be saved or shared by others.</li>
+    </ul>
+  </section>
 
-  <h2>9. Limitation of Liability</h2>
-  <p>
-    PiDao is provided on an experimental basis. We are not liable for indirect,
-    incidental, or consequential damages arising from use of the application.
-  </p>
+  <section id="publishing">
+    <h2>5) Public Publishing & Irreversibility</h2>
+    <p>
+      Some features may allow publishing content in a way that can be difficult or impossible to fully delete once shared or distributed.
+      You acknowledge and agree that:
+    </p>
+    <ul>
+      <li>Publicly published content may be copied, archived, or redistributed by third parties.</li>
+      <li>Even if content is removed from our user interface, it may still exist elsewhere.</li>
+      <li>You are responsible for deciding what information to publish.</li>
+    </ul>
 
-  <h2>10. Changes to Terms</h2>
-  <p>
-    These Terms may be updated from time to time. Continued use of the
-    application means you accept the updated Terms.
-  </p>
+    <div class="note">
+      <strong>Warning:</strong> Do not publish sensitive personal information (e.g., private keys, passwords, IDs, phone numbers, bank details),
+      because you may not be able to remove it later.
+    </div>
+  </section>
 
-  <h2>11. Contact</h2>
-  <p>
-    If you have questions about these Terms, please contact the PiDao project
-    team through the official project communication channels.
-  </p>
+  <section id="payments">
+    <h2>6) Payments, Fees, and Tokens</h2>
 
+    <h3>6.1 Payments</h3>
+    <p>
+      Some features may require fees (for example, publishing, registrations, premium actions, or other utilities).
+      Payments may be processed through third-party platforms, wallets, or networks depending on availability.
+    </p>
+
+    <h3>6.2 Night Protocol (NTP)</h3>
+    <p>
+      Night Protocol (NTP) is a utility token intended for ecosystem usage (fees, participation, incentives).
+      Availability of token-related features depends on platform support and may change over time.
+    </p>
+
+    <h3>6.3 No Refunds (Unless Required by Law)</h3>
+    <p class="muted">
+      Due to the nature of digital transactions and operational costs, fees may be non-refundable once processed
+      (unless required by applicable law or explicitly stated otherwise).
+    </p>
+
+    <h3>6.4 Price Changes</h3>
+    <p>
+      We may change fees or introduce new fees at any time. We will provide notice where reasonably possible.
+    </p>
+  </section>
+
+  <section id="acceptable-use">
+    <h2>7) Acceptable Use</h2>
+    <p>You agree not to misuse the Services. Prohibited activities include:</p>
+    <ul>
+      <li>Uploading illegal content or content that violates third-party rights</li>
+      <li>Harassment, threats, hate speech, or incitement of violence</li>
+      <li>Sharing malware, phishing, or attempting unauthorized access</li>
+      <li>Manipulating, abusing, or attempting to exploit payments, credits, or reward systems</li>
+      <li>Using automated means to scrape or overload the Services without permission</li>
+      <li>Any activity that disrupts the integrity, security, or availability of the Services</li>
+    </ul>
+
+    <h3>7.1 Moderation</h3>
+    <p class="muted">
+      We may remove content from our interfaces, limit visibility, or restrict access when we believe a violation occurred
+      or when required to protect users and the Services. However, removal from our interface does not guarantee removal
+      from third-party systems where content may have been copied or archived.
+    </p>
+  </section>
+
+  <section id="ip">
+    <h2>8) Intellectual Property</h2>
+
+    <h3>8.1 Our Intellectual Property</h3>
+    <p>
+      The Services, including software, design, trademarks, and branding (including “Night”, “NightGrid”, “NightCap”, “NightAgent”, and “NTP”),
+      are owned by Night or its licensors and are protected by applicable laws.
+    </p>
+
+    <h3>8.2 Idea Marketplace / Public Publishing</h3>
+    <p>
+      Some features may allow users to publish ideas and timestamp them. Night does not guarantee legal enforceability
+      of idea ownership in all jurisdictions. Users are responsible for seeking legal advice where necessary.
+    </p>
+
+    <div class="note">
+      Publishing an idea publicly may reduce secrecy. Use the platform knowingly and responsibly.
+    </div>
+  </section>
+
+  <section id="disclaimers">
+    <h2>9) Disclaimers</h2>
+    <p class="muted">
+      The Services are provided on an “AS IS” and “AS AVAILABLE” basis. To the maximum extent permitted by law,
+      Night disclaims all warranties of any kind, whether express or implied, including merchantability, fitness for a particular purpose,
+      and non-infringement.
+    </p>
+    <ul class="muted">
+      <li>We do not guarantee uninterrupted or error-free operation.</li>
+      <li>We do not guarantee accuracy of third-party data (prices, analytics, exchange data).</li>
+      <li>Digital assets and networks involve risks, including irreversible transactions.</li>
+    </ul>
+  </section>
+
+  <section id="liability">
+    <h2>10) Limitation of Liability</h2>
+    <p class="muted">
+      To the maximum extent permitted by law, Night and its contributors will not be liable for any indirect, incidental, special,
+      consequential, or punitive damages, or any loss of profits, data, use, goodwill, or other intangible losses,
+      resulting from (a) your use of or inability to use the Services; (b) any unauthorized access to or use of our systems;
+      (c) any conduct or content of any third party; or (d) any transactions, publishing, or storage operations.
+    </p>
+  </section>
+
+  <section id="termination">
+    <h2>11) Termination</h2>
+    <p>
+      We may suspend or terminate your access to the Services at any time if we believe you violated these Terms,
+      or to protect the security and integrity of the Services.
+    </p>
+    <p class="muted">
+      Termination may not remove content already shared publicly or distributed by third parties.
+    </p>
+  </section>
+
+  <section id="law">
+    <h2>12) Governing Law & Dispute Resolution</h2>
+    <p>
+      These Terms are governed by the laws of the <strong>Kingdom of Saudi Arabia</strong>, without regard to conflict of law principles.
+    </p>
+    <p class="muted">
+      Any dispute arising out of or relating to these Terms or the Services shall be resolved in the competent courts of the Kingdom of Saudi Arabia,
+      unless mandatory law provides otherwise.
+    </p>
+  </section>
+
+  <section id="contact">
+    <h2>13) Contact</h2>
+    <p>
+      The Services are operated by:
+    </p>
+    <ul>
+      <li><strong>Operator:</strong> Mohammad Nourmohammadi</li>
+      <li><strong>Email:</strong> <a href="mailto:pinetworkcex@gmail.com">pinetworkcex@gmail.com</a></li>
+      <li><strong>Website:</strong> night.pi</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <div class="hr"></div>
   <p>
-    <a href="/">Back to PiDao</a>
+    © Night Ecosystem — Terms of Service (Draft). This template is for informational purposes and should be reviewed by legal counsel before production use.
   </p>
+</footer>
+
 </body>
 </html>
