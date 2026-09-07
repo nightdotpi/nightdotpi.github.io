@@ -1,108 +1,344 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Policy - PiDao</title>
+  <title>Privacy Policy — Night Ecosystem</title>
+  <meta name="description" content="Privacy Policy for Night Ecosystem (Night Protocol, NightGrid, NightCap, NightAgent)." />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.7;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 32px 20px;
-      color: #1f2937;
-      background: #ffffff;
+    :root{
+      --bg:#0b1020;
+      --card:#111a33;
+      --text:#e8ecff;
+      --muted:#b9c2ffcc;
+      --accent:#7c5cff;
+      --border:rgba(255,255,255,0.08);
+      --code:#0a0f1f;
     }
-
-    h1, h2 {
-      color: #4c1d95;
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1200px 700px at 20% 10%, rgba(124,92,255,0.25), transparent 55%),
+                  radial-gradient(900px 600px at 90% 20%, rgba(0,209,255,0.18), transparent 50%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.7;
     }
-
-    a {
-      color: #673ab7;
+    a{ color: #8ae1ff; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    header, main, footer{
+      max-width:1100px;
+      margin:0 auto;
+      padding:24px 20px;
     }
-
-    .date {
-      color: #6b7280;
-      font-size: 14px;
+    header{ padding-top:44px; padding-bottom:14px; }
+    .badge{
+      display:inline-block;
+      padding:6px 10px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      color:var(--muted);
+      background:rgba(255,255,255,0.03);
+      font-size:13px;
+    }
+    h1{ margin:14px 0 8px; font-size:40px; line-height:1.15; }
+    .subtitle{ color:var(--muted); max-width:900px; }
+    section{
+      background:rgba(255,255,255,0.03);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:20px 20px;
+      margin:14px 0;
+    }
+    h2{ margin:0 0 10px; font-size:22px; }
+    h3{ margin:16px 0 8px; font-size:16px; }
+    p{ margin:10px 0; }
+    ul{ margin:10px 0 10px 18px; }
+    li{ margin:6px 0; }
+    .muted{ color:var(--muted); }
+    .note{
+      border-left:4px solid var(--accent);
+      padding:12px 14px;
+      background:rgba(124,92,255,0.08);
+      border-radius:12px;
+      margin:12px 0;
+      color:var(--muted);
+    }
+    .toc{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:14px;
+    }
+    .toc a{
+      padding:8px 10px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:rgba(255,255,255,0.03);
+      font-size:13px;
+      color:var(--text);
+    }
+    code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      background:rgba(10,15,31,0.9);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:2px 6px;
+    }
+    footer{
+      color:var(--muted);
+      font-size:13px;
+      padding-bottom:40px;
+    }
+    .hr{ height:1px; background:var(--border); margin:16px 0; }
+    @media (max-width: 900px){
+      h1{ font-size:32px; }
     }
   </style>
 </head>
 <body>
+
+<header>
+  <span class="badge">Privacy Policy • Night Ecosystem</span>
   <h1>Privacy Policy</h1>
-  <p class="date">Last updated: August 2026</p>
-
-  <p>
-    PiDao respects your privacy. This Privacy Policy explains how we collect,
-    use, and protect information when you use our application.
+  <p class="subtitle">
+    This Privacy Policy explains how the Night Ecosystem (“Night”, “we”, “us”) collects, uses, shares,
+    and protects information when you use our products including Night Protocol (NTP), NightGrid, NightCap, and NightAgent.
+  </p>
+  <p class="muted">
+    Effective date: <strong>[INSERT DATE]</strong> • Version: <strong>v0.1</strong> • Domain: <strong>night.pi</strong>
   </p>
 
-  <h2>1. Information We Collect</h2>
-  <p>
-    When you use PiDao, we may collect basic information provided through
-    Pi Network authentication, such as your Pi user ID and username.
-  </p>
+  <div class="toc">
+    <a href="#scope">Scope</a>
+    <a href="#data-we-collect">Data We Collect</a>
+    <a href="#public-blockchain">Public Blockchain & Permanent Storage</a>
+    <a href="#how-we-use">How We Use Data</a>
+    <a href="#sharing">Sharing</a>
+    <a href="#retention">Retention</a>
+    <a href="#security">Security</a>
+    <a href="#your-rights">Your Rights</a>
+    <a href="#children">Children</a>
+    <a href="#international">International Transfers</a>
+    <a href="#changes">Changes</a>
+    <a href="#contact">Contact</a>
+  </div>
+</header>
 
-  <p>
-    We may also collect interaction data related to voting, tasks, payments,
-    and usage of the application.
-  </p>
+<main>
 
-  <h2>2. How We Use Information</h2>
-  <p>
-    We use collected information to provide authentication, prevent duplicate
-    voting, process Pi-related interactions, display user participation, and
-    improve the platform.
-  </p>
+  <section id="scope">
+    <h2>1) Scope</h2>
+    <p>
+      This policy applies to your use of Night services and websites (collectively, the “Services”),
+      including any apps or web interfaces that integrate authentication or payments (e.g., through the Pi ecosystem).
+    </p>
+    <p class="muted">
+      Third-party services (such as Pi Wallet, Pi SDK, Arweave gateways, analytics providers, or exchanges)
+      may have their own privacy practices. We encourage you to review their policies as well.
+    </p>
+  </section>
 
-  <h2>3. Pi Network Authentication</h2>
-  <p>
-    PiDao uses Pi Network tools such as Pi SDK for user authentication and
-    participation. We do not collect or store your Pi wallet private keys.
-  </p>
+  <section id="data-we-collect">
+    <h2>2) Data We Collect</h2>
 
-  <h2>4. Payments</h2>
-  <p>
-    If Pi payments are used, payment-related information such as payment ID,
-    transaction status, and transaction identifiers may be processed to complete
-    and verify transactions.
-  </p>
+    <h3>2.1 Account / Identity Data</h3>
+    <ul>
+      <li><strong>Pi authentication identifiers</strong> (if you log in through Pi SDK), such as a user identifier token provided by Pi.</li>
+      <li><strong>Wallet addresses</strong> (Pi address, and/or other blockchain addresses if used in the future).</li>
+      <li><strong>Optional profile data</strong> you choose to provide (e.g., username, display name, bio), if supported.</li>
+    </ul>
 
-  <h2>5. Data Storage</h2>
-  <p>
-    Some application data may be stored in our backend systems or database,
-    including voting records and user participation data.
-  </p>
+    <h3>2.2 Content You Create</h3>
+    <ul>
+      <li><strong>Text content</strong> you submit to NightGrid (e.g., posts, messages, idea descriptions).</li>
+      <li><strong>Metadata</strong> related to your content (timestamps, references, indexing IDs).</li>
+    </ul>
 
-  <h2>6. Data Sharing</h2>
-  <p>
-    We do not sell your personal data. We may share limited data only when
-    required to operate the application, comply with legal obligations, or
-    interact with Pi Network services.
-  </p>
+    <h3>2.3 Payments & Transaction Data</h3>
+    <ul>
+      <li><strong>Payment IDs</strong> and verification details received from payment providers (e.g., Pi SDK payment APIs).</li>
+      <li><strong>Transaction hashes</strong> and related blockchain metadata (public by nature on most networks).</li>
+      <li><strong>Internal credits/usage records</strong> (if we use a credit-based system for better UX).</li>
+    </ul>
 
-  <h2>7. Security</h2>
-  <p>
-    We use reasonable technical measures to protect user data. However, no
-    digital system can be guaranteed to be completely secure.
-  </p>
+    <h3>2.4 Device & Usage Data</h3>
+    <ul>
+      <li>Basic device and browser information (e.g., device type, OS, language, approximate region, app version).</li>
+      <li>Log data for reliability and security (e.g., request timestamps, error logs, IP address).</li>
+      <li>Analytics events (if enabled) such as page views and feature usage.</li>
+    </ul>
 
-  <h2>8. DIG Vision</h2>
-  <p>
-    PiDao is an early infrastructure related to the DIG vision. At this stage,
-    DIG is a concept and development path for transparent and people-powered
-    participation.
-  </p>
+    <h3>2.5 NightAgent (Offline Features) Data</h3>
+    <p class="muted">
+      If you use NightAgent offline features (e.g., NFC/cards/access codes), we may process:
+    </p>
+    <ul>
+      <li>Offline transaction events and reconciliation records when you reconnect.</li>
+      <li>Security-related tokens (e.g., one-time codes, nonces) used to prevent replay and fraud.</li>
+    </ul>
 
-  <h2>9. Contact</h2>
-  <p>
-    If you have questions about this Privacy Policy, please contact the PiDao
-    project team through the official project communication channels.
-  </p>
+    <div class="note">
+      <strong>Important:</strong> You can choose to hide your real-world identity. However, if you publish content publicly,
+      your content may still be linked to an address or identifier, depending on your settings and the underlying platform.
+    </div>
+  </section>
 
+  <section id="public-blockchain">
+    <h2>3) Public Blockchain & Permanent Storage (Arweave)</h2>
+    <p>
+      Some Night features are designed to create durable records. When you choose to publish content permanently:
+    </p>
+    <ul>
+      <li>Your content (or a representation of it) may be stored on decentralized networks such as <strong>Arweave</strong>.</li>
+      <li>Once stored, content may be <strong>public and permanent</strong> and cannot be fully deleted by Night or anyone else.</li>
+      <li>We may store pointers such as an <strong>Arweave Transaction ID</strong> (e.g., <code>arweave_tx_id</code>) in our indexing database for usability.</li>
+    </ul>
+    <div class="note">
+      <strong>Data permanence warning:</strong> If you post sensitive personal information, you may not be able to remove it later.
+      Please publish responsibly.
+    </div>
+  </section>
+
+  <section id="how-we-use">
+    <h2>4) How We Use Data</h2>
+    <p>We use information to:</p>
+    <ul>
+      <li>Provide and operate the Services (login, payments, content publishing, retrieval, indexing).</li>
+      <li>Verify payments and prevent fraud, abuse, or unauthorized access.</li>
+      <li>Maintain system reliability (debugging, monitoring, performance tuning).</li>
+      <li>Improve features and user experience (product analytics, feedback, A/B testing where applicable).</li>
+      <li>Comply with legal obligations (where applicable).</li>
+    </ul>
+  </section>
+
+  <section id="sharing">
+    <h2>5) Sharing of Information</h2>
+    <p>We may share information in these cases:</p>
+
+    <h3>5.1 Service Providers</h3>
+    <p class="muted">
+      We may use infrastructure providers (hosting, databases, monitoring) who process data on our behalf under contractual obligations.
+    </p>
+
+    <h3>5.2 Blockchain / Decentralized Networks</h3>
+    <p>
+      When you choose blockchain-based or permanent storage features, relevant data may be published to public networks.
+      Such data is accessible by anyone and is outside our direct control.
+    </p>
+
+    <h3>5.3 Legal / Safety</h3>
+    <p>
+      We may disclose information if required by law, or to protect the rights, safety, and security of users and the Services.
+    </p>
+
+    <h3>5.4 Business Transfers</h3>
+    <p class="muted">
+      If Night is involved in a merger, acquisition, or asset sale, user information may be transferred as part of that transaction,
+      subject to applicable laws and this policy.
+    </p>
+  </section>
+
+  <section id="retention">
+    <h2>6) Data Retention</h2>
+    <p>
+      We retain data only as long as necessary to provide the Services, comply with legal obligations,
+      resolve disputes, and enforce agreements.
+    </p>
+    <ul>
+      <li>Indexing records (e.g., user ↔ content pointers) may be retained to enable retrieval.</li>
+      <li>Payment verification logs may be retained for fraud prevention and accounting.</li>
+      <li>Public blockchain / Arweave data may be permanent and not erasable.</li>
+    </ul>
+  </section>
+
+  <section id="security">
+    <h2>7) Security</h2>
+    <p>
+      We implement reasonable administrative, technical, and organizational safeguards to protect information.
+      These may include:
+    </p>
+    <ul>
+      <li>Access controls and least-privilege policies</li>
+      <li>Encryption in transit (HTTPS/TLS) and, where appropriate, encryption at rest</li>
+      <li>Secure key management (private keys never stored in front-end code)</li>
+      <li>Audit logs and anomaly detection for abuse prevention</li>
+    </ul>
+    <p class="muted">
+      No system is 100% secure. You are responsible for safeguarding your device, wallet, and login credentials.
+    </p>
+  </section>
+
+  <section id="your-rights">
+    <h2>8) Your Rights & Choices</h2>
+    <p>Depending on your location, you may have rights such as:</p>
+    <ul>
+      <li>Access: request a copy of certain personal data we hold about you</li>
+      <li>Correction: request corrections to inaccurate personal data</li>
+      <li>Deletion: request deletion of certain data (where possible)</li>
+      <li>Objection / Restriction: object to or restrict certain processing</li>
+      <li>Portability: request your data in a portable format (where applicable)</li>
+    </ul>
+
+    <div class="note">
+      <strong>Limitations:</strong> If your content or transactions are recorded on public blockchain networks or Arweave,
+      we may not be able to delete or alter that data. We can, where feasible, remove references from our indexing systems.
+    </div>
+  </section>
+
+  <section id="children">
+    <h2>9) Children</h2>
+    <p>
+      The Services are not directed to children under the age of 13 (or the minimum legal age in your jurisdiction).
+      We do not knowingly collect personal data from children.
+    </p>
+  </section>
+
+  <section id="international">
+    <h2>10) International Data Transfers</h2>
+    <p>
+      Night may operate globally. Your information may be processed in countries other than where you live.
+      We take steps to protect your data when transferred internationally, subject to applicable law.
+    </p>
+  </section>
+
+  <section id="changes">
+    <h2>11) Changes to This Policy</h2>
+    <p>
+      We may update this Privacy Policy from time to time. If we make material changes, we will update the “Effective date”
+      and provide notice where appropriate.
+    </p>
+  </section>
+
+  <section id="contact">
+    <h2>12) Contact</h2>
+    <p>
+      For privacy questions or requests, contact:
+    </p>
+    <ul>
+      <li>Email: pinetworkcex@gmail.com <strong>[INSERT CONTACT EMAIL]</strong></li>
+      <li>Website: <strong>night.pi</strong></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <div class="hr"></div>
   <p>
-    <a href="/">Back to PiDao</a>
+    © Night Ecosystem — Privacy Policy (Draft). This template is provided for informational purposes and should be reviewed by legal counsel before production use.
   </p>
+</footer>
+
 </body>
 </html>
+```
+
+برای اینکه این privacy.html دقیق‌تر و آماده انتشار بشه، فقط این موارد رو بفرمایید تا جایگزین کنم:
+
+1) **ایمیل رسمی تماس** پروژه  
+2) آیا NightGrid **کاملاً عمومی** است یا گزینه “Private/Unlisted” هم دارید؟  
+3) آیا برای تحلیل بازدید/رفتار کاربر از ابزارهایی مثل Google Analytics استفاده می‌کنید یا نه؟  
+4) کشور/حوزه حقوقی هدف (مثلاً EU/US/Global) تا بخش GDPR/CCPA رو هم اضافه کنم یا ساده نگه داریم
