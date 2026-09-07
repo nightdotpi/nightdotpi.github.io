@@ -1,0 +1,41 @@
+import type { Translations } from '../I18nContext';
+
+export const hero: Translations = {
+  digShortName: { fa: 'Night', en: 'Night', tr: 'Night', zh: 'Night', hi: 'Night', ar: 'Night' },
+
+  digFullName: {
+    fa: 'اکوسیستم Night: NTP + NightGrid + NightCap',
+    en: 'Night Ecosystem: NTP + NightGrid + NightCap',
+    tr: 'Night Ekosistemi: NTP + NightGrid + NightCap',
+    zh: 'Night 生态系统：NTP + NightGrid + NightCap',
+    hi: 'Night इकोसिस्टम: NTP + NightGrid + NightCap',
+    ar: 'منظومة Night: NTP + NightGrid + NightCap',
+  },
+
+  digHeroTitle: {
+    fa: 'یک اکوسیستم جهانی برای پرداخت، داده و اجتماع غیرمتمرکز',
+    en: 'A Global Ecosystem for Payments, Data, and Decentralized Social',
+    tr: 'Ödemeler, Veri ve Merkeziyetsiz Sosyal için Küresel Ekosistem',
+    zh: '面向支付、数据与去中心化社交的全球生态系统',
+    hi: 'भुगतान, डेटा और विकेंद्रीकृत सोशल के लिए वैश्विक इकोसिस्टम',
+    ar: 'منظومة عالمية للمدفوعات والبيانات والتواصل اللامركزي',
+  },
+
+  digHeroDescription: {
+    fa: 'Night با توکن NTP، شبکه اجتماعی NightGrid و ابزار تحلیلی NightCap، تجربه‌ای یکپارچه برای کاربران و سازندگان dApp فراهم می‌کند.',
+    en: 'Night combines the NTP token, the NightGrid decentralized social network, and NightCap analytics to deliver an integrated experience for users and dApp builders.',
+    tr: 'Night; NTP tokeni, NightGrid merkeziyetsiz sosyal ağı ve NightCap analitiğini birleştirerek kullanıcılar ve dApp geliştiricileri için entegre bir deneyim sunar.',
+    zh: 'Night 结合 NTP 代币、NightGrid 去中心化社交网络与 NightCap 分析工具，为用户与 dApp 开发者提供一体化体验。',
+    hi: 'Night, NTP टोकन, NightGrid विकेंद्रीकृत सोशल नेटवर्क और NightCap एनालिटिक्स को मिलाकर उपयोगकर्ताओं और dApp निर्माताओं के लिए एकीकृत अनुभव देता है।',
+    ar: 'يجمع Night بين رمز NTP وشبكة NightGrid الاجتماعية اللامركزية ومنصة NightCap التحليلية لتقديم تجربة متكاملة للمستخدمين ومطوري التطبيقات.',
+  },
+
+  exploreDig: {
+    fa: 'کشف اکوسیستم Night',
+    en: 'Explore Night',
+    tr: 'Night’i Keşfet',
+    zh: '探索 Night',
+    hi: 'Night को जानें',
+    ar: 'استكشف Night',
+  },
+};
