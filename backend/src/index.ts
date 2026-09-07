@@ -19,6 +19,6 @@ app.get('/health', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 PiDao Backend running on http://localhost:${PORT}`);
+  console.log(`🚀 Night Backend running on http://localhost:${PORT}`);
 });
 
