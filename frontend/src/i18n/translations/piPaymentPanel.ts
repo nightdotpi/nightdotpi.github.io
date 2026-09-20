@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const piPaymentPanel: Translations = {
   paymentPanelTitle: {
     fa: 'پرداخت با Pi',
