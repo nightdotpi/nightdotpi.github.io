@@ -6,35 +6,36 @@ import { useI18n } from '../i18n/I18nContext';
 const Features = () => {
   const { t } = useI18n();
 
+  // کلیدها با پیشوند features. اصلاح شدند تا با سیستم Namespace هماهنگ باشند
   const features = [
     {
-      title: t('featureGlobalVotingTitle'),
-      description: t('featureGlobalVotingDescription'),
+      title: t('features.featureGlobalVotingTitle'),
+      description: t('features.featureGlobalVotingDescription'),
       icon: '🗳️',
     },
     {
-      title: t('featureTransparentGovernanceTitle'),
-      description: t('featureTransparentGovernanceDescription'),
+      title: t('features.featureTransparentGovernanceTitle'),
+      description: t('features.featureTransparentGovernanceDescription'),
       icon: '🔍',
     },
     {
-      title: t('featurePiIdentityTitle'),
-      description: t('featurePiIdentityDescription'),
+      title: t('features.featurePiIdentityTitle'),
+      description: t('features.featurePiIdentityDescription'),
       icon: 'π',
     },
     {
-      title: t('featureDaoInfrastructureTitle'),
-      description: t('featureDaoInfrastructureDescription'),
+      title: t('features.featureNightInfrastructureTitle'), // تغییر از Dao به Night
+      description: t('features.featureNightInfrastructureDescription'), // تغییر از Dao به Night
       icon: '🌐',
     },
     {
-      title: t('featureDigitalEconomyTitle'),
-      description: t('featureDigitalEconomyDescription'),
+      title: t('features.featureDigitalEconomyTitle'),
+      description: t('features.featureDigitalEconomyDescription'),
       icon: '💠',
     },
     {
-      title: t('featureConflictResolutionTitle'),
-      description: t('featureConflictResolutionDescription'),
+      title: t('features.featureConflictResolutionTitle'),
+      description: t('features.featureConflictResolutionDescription'),
       icon: '🤝',
     },
   ];
@@ -43,16 +44,17 @@ const Features = () => {
     <section id="features" className="features-section">
       <div className="container">
         <div className="features-heading">
+          {/* فرض بر این است که این کلید در ماژول features یا common است */}
           <span className="features-kicker">
-            {t('digShortName')}
+            {t('features.digShortName')}
           </span>
 
           <h2 className="section-title">
-            {t('digFeaturesSectionTitle')}
+            {t('features.digFeaturesSectionTitle')}
           </h2>
 
           <p className="features-intro">
-            {t('digFeaturesSectionIntro')}
+            {t('features.digFeaturesSectionIntro')}
           </p>
         </div>
 
