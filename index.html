@@ -2,17 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-
-    <meta
-      name="description"
-      content="NIGHT - Night ecosystem powered by Pi Network"
-    />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="NIGHT - Night ecosystem powered by Pi Network" />
     <meta name="theme-color" content="#673ab7" />
 
     <!-- Pi Domain Validation -->
@@ -61,7 +52,7 @@
                 '<p style="margin:0 0 18px;color:#d1d5db;font-size:15px;line-height:1.8;">This app is built for Pi Network. Pi login, payments, and Pi features work only inside <strong>Pi Browser</strong>.</p>' +
                 '<button id="copyPiAppUrlButton" type="button" style="display:block;width:100%;border:0;border-radius:14px;padding:14px 18px;font-size:16px;font-weight:700;cursor:pointer;background:#fbbf24;color:#111827;margin-top:14px;">Copy app address</button>' +
                 '<button id="manualPiBrowserButton" type="button" style="display:block;width:100%;border:0;border-radius:14px;padding:14px 18px;font-size:16px;font-weight:700;cursor:pointer;background:#374151;color:#fff;margin-top:12px;">I will open Pi Browser manually</button>' +
-                '<div id="piBrowserNote" style="margin-top:16px;font-size:13px;color:#9ca3af;line-height:1.8;">Tap “Copy app address”, then open Pi Browser manually and paste it there.</div>' +
+                '<div id="piBrowserNote" style="margin-top:16px;font-size:13px;color:#9ca3af;line-height:1.8;">Tap "Copy app address", then open Pi Browser manually and paste it there.</div>' +
               '</div>' +
             '</div>';
 
@@ -83,28 +74,19 @@
                   if (copyButton) {
                     copyButton.textContent = 'App address copied';
                   }
-
-                  setNote(
-                    'Now open Pi Browser manually and paste the copied address.'
-                  );
+                  setNote('Now open Pi Browser manually and paste the copied address.');
                 })
                 .catch(function () {
                   if (copyButton) {
                     copyButton.textContent = 'Copy failed';
                   }
-
-                  setNote(
-                    'Copy failed. Please open Pi Browser manually and type the app address.'
-                  );
+                  setNote('Copy failed. Please open Pi Browser manually and type the app address.');
                 });
             } else {
               if (copyButton) {
                 copyButton.textContent = 'Copy not supported';
               }
-
-              setNote(
-                'Please open Pi Browser manually and type the app address.'
-              );
+              setNote('Please open Pi Browser manually and type the app address.');
             }
           }
 
@@ -114,9 +96,7 @@
 
           if (manualButton) {
             manualButton.addEventListener('click', function () {
-              setNote(
-                'Open Pi Browser manually, then paste the copied app address in the Pi Browser address bar.'
-              );
+              setNote('Open Pi Browser manually, then paste the copied app address in the Pi Browser address bar.');
             });
           }
         } catch (error) {
@@ -133,10 +113,6 @@
         }
       })();
     </script>
-
-    <!-- Debug Console (TEMPORARY - remove after debugging) -->
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
 
     <!-- Pi Network SDK must be loaded before React app -->
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
