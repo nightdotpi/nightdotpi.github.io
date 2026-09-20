@@ -32,12 +32,12 @@ const Hero = () => {
     <section className="hero">
       <div className="hero-badge">
         {/* استفاده از namespace 'hero' برای بخش Hero */}
-        {t('hero.digShortName')} · {t('hero.digFullName')}
+        {t('hero.nightShortName')} · {t('hero.nightFullName')}
       </div>
 
-      <h1>{t('hero.digHeroTitle')}</h1>
+      <h1>{t('hero.nightHeroTitle')}</h1>
 
-      <p>{t('hero.digHeroDescription')}</p>
+      <p>{t('hero.nightHeroDescription')}</p>
 
       <div className="hero-btns">
         <button onClick={scrollToPiPanel} className="btn-primary">
@@ -45,7 +45,7 @@ const Hero = () => {
         </button>
 
         <button onClick={scrollToAbout} className="btn-secondary">
-          🌐 {t('hero.exploreDig')}
+          🌐 {t('hero.exploreNight')}
         </button>
       </div>
     </section>
