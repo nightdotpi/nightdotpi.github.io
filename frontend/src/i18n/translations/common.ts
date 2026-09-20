@@ -1,17 +1,5 @@
-// فایل frontend/src/i18n/translations/common.ts
-
-// ۱. این ایمپورت را حذف کنید (چون common کل Translations نیست)
-// import type { Translations } from '../I18nContext'; 
-
-// ۲. یک تایپ ساده برای تک تک آیتم‌ها تعریف کنید یا از any استفاده کنید تا فعلاً کرش متوقف شود
-type TranslationEntry = {
-  fa: string;
-  en: string;
-  tr?: string;
-  zh?: string;
-  hi?: string;
-  ar?: string;
-};
+// frontend/src/i18n/translations/common.ts
+// ایمپورت I18nContext را کلاً پاک کنید!
 
 export const common: Record<string, TranslationEntry> = {
   appTitle: {
