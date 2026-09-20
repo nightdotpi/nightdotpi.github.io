@@ -1,5 +1,5 @@
-export const digPage: Translations = {
-  digPageTitle: {
+export const dig: Translations = {
+  digTitle: {
     fa: 'Night Protocol (NTP)',
     en: 'Night Protocol (NTP)',
     tr: 'Night Protocol (NTP)',
@@ -8,7 +8,7 @@ export const digPage: Translations = {
     ar: 'Night Protocol (NTP)',
   },
 
-  digPageLead: {
+  digLead: {
     fa: 'NTP توکن کاربردی اکوسیستم Night برای کارمزد سرویس‌ها، ثبت dApp و ساخت Poll است (و مسیرهای پیشرفته‌تر در آینده).',
     en: 'NTP is the utility token of the Night ecosystem for service fees, dApp registration, and poll creation (with more advanced flows later).',
     tr: 'NTP, Night ekosisteminin servis ücretleri, dApp kaydı ve anket oluşturma için kullanılan yardımcı tokenidir (ileride daha gelişmiş akışlarla).',
