@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const footer: Translations = {
   footerDescription: {
     fa: 'Night یک اکوسیستم فازبه‌فاز است: NTP برای پرداخت و کارمزدها، NightGrid برای شبکه اجتماعی، و NightCap برای تحلیل بازار.',
