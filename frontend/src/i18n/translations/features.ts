@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const features: Translations = {
   digFeaturesSectionTitle: {
     fa: 'قابلیت‌های اصلی Night',
