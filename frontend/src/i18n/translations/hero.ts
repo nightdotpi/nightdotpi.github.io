@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const hero: Translations = {
   digShortName: {
     fa: 'Night',
