@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const header: Translations = {
   headerBrandAria: {
     fa: 'خانه Night',
