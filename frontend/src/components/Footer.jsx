@@ -44,7 +44,7 @@ const Footer = () => {
           </Link>
 
           <div className="footer-badge">
-            {t('footer.digShortName')} · {t('footer.digFullName')}
+            {t('footer.nightShortName')} · {t('footer.nightFullName')}
           </div>
 
           <p className="footer-description">
@@ -54,8 +54,8 @@ const Footer = () => {
 
         <ul className="footer-links">
           <li>
-            <Link to="/dig" className="footer-link">
-              {t('common.navDig')}
+            <Link to="/night" className="footer-link">
+              {t('common.navNight')}
             </Link>
           </li>
 
