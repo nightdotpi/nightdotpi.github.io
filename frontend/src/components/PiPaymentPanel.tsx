@@ -369,7 +369,7 @@ const PiPaymentPanel: React.FC = () => {
 
       const paymentData = {
         amount: paymentAmount,
-        memo: `Pi DAO payment - ${paymentAmount} Pi`,
+        memo: `NIGHT payment - ${paymentAmount} Pi`,
         metadata: {
           type: PI_SANDBOX ? 'testnet_payment' : 'mainnet_payment',
           orderId,
