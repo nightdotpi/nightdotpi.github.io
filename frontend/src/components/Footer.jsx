@@ -38,23 +38,24 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-inner">
         <div className="footer-brand">
+          {/* تغییر برندینگ به NIGHT */}
           <Link to="/" className="footer-logo">
-            Pi<span>DAO</span>
+            NIGHT
           </Link>
 
           <div className="footer-badge">
-            {t('digShortName')} · {t('digFullName')}
+            {t('footer.digShortName')} · {t('footer.digFullName')}
           </div>
 
           <p className="footer-description">
-            {t('footerDescription')}
+            {t('footer.footerDescription')}
           </p>
         </div>
 
         <ul className="footer-links">
           <li>
             <Link to="/dig" className="footer-link">
-              {t('navDig')}
+              {t('common.navDig')}
             </Link>
           </li>
 
@@ -64,7 +65,7 @@ const Footer = () => {
               onClick={() => scrollToSection('features')}
               className="footer-link-button"
             >
-              {t('features')}
+              {t('common.features')}
             </button>
           </li>
 
@@ -74,7 +75,7 @@ const Footer = () => {
               onClick={() => scrollToSection('roadmap')}
               className="footer-link-button"
             >
-              {t('navRoadmap')}
+              {t('common.navRoadmap')}
             </button>
           </li>
 
@@ -84,7 +85,7 @@ const Footer = () => {
               onClick={() => scrollToSection('poll')}
               className="footer-link-button"
             >
-              {t('governance')}
+              {t('common.governance')}
             </button>
           </li>
 
@@ -94,19 +95,19 @@ const Footer = () => {
               onClick={() => scrollToSection('about')}
               className="footer-link-button"
             >
-              {t('aboutUs')}
+              {t('common.aboutUs')}
             </button>
           </li>
 
           <li>
             <Link to="/shop" className="footer-link">
-              {t('shop')}
+              {t('common.shop')}
             </Link>
           </li>
 
           <li>
             <Link to="/tasks" className="footer-link">
-              {t('tasks')}
+              {t('common.tasks')}
             </Link>
           </li>
         </ul>
@@ -118,7 +119,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t('privacyPolicy')}
+            {t('footer.privacyPolicy')}
           </a>
 
           <span className="footer-legal-separator">•</span>
@@ -129,7 +130,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t('termsOfService')}
+            {t('footer.termsOfService')}
           </a>
 
           <span className="footer-legal-separator">•</span>
@@ -140,19 +141,20 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t('whitepaper')}
+            {t('footer.whitepaper')}
           </a>
         </div>
 
         <div className="footer-note">
           <p>
-            {t('footerNote')}
+            {t('footer.footerNote')}
           </p>
         </div>
 
         <div className="copyright">
           <p>
-            &copy; {new Date().getFullYear()} PiDao. {t('footerRights')}
+            {/* تغییر برندینگ کپی‌رایت به NIGHT */}
+            &copy; {new Date().getFullYear()} NIGHT. {t('footer.footerRights')}
           </p>
         </div>
       </div>
