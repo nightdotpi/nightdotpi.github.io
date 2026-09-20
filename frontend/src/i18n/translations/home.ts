@@ -1,6 +1,4 @@
-import type { Translations } from '../I18nContext';
-
-export const homePage: Translations = {
+export const home: Translations = {
   homeTitle: {
     fa: 'اکوسیستم Night',
     en: 'Night Ecosystem',
