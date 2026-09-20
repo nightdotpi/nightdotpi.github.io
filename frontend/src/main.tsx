@@ -69,7 +69,7 @@ function initializePiSdk() {
   }
 }
 
-// اگر صفحه روی https://pinightpi.github.io خارج از Pi Browser باز شده باشد،
+// اگر صفحه روی https://nightdotpi.github.io خارج از Pi Browser باز شده باشد،
 // index.html پیام راهنما را نمایش می‌دهد و React نباید آن را جایگزین کند.
 if (window.__PI_BROWSER_REQUIRED_BLOCKED__) {
   console.warn(
