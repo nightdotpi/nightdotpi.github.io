@@ -31,20 +31,21 @@ const Hero = () => {
   return (
     <section className="hero">
       <div className="hero-badge">
-        {t('digShortName')} · {t('digFullName')}
+        {/* استفاده از namespace 'hero' برای بخش Hero */}
+        {t('hero.digShortName')} · {t('hero.digFullName')}
       </div>
 
-      <h1>{t('digHeroTitle')}</h1>
+      <h1>{t('hero.digHeroTitle')}</h1>
 
-      <p>{t('digHeroDescription')}</p>
+      <p>{t('hero.digHeroDescription')}</p>
 
       <div className="hero-btns">
         <button onClick={scrollToPiPanel} className="btn-primary">
-          🔐 {t('joinWithPi')}
+          🔐 {t('hero.joinWithPi')}
         </button>
 
         <button onClick={scrollToAbout} className="btn-secondary">
-          🌐 {t('exploreDig')}
+          🌐 {t('hero.exploreDig')}
         </button>
       </div>
     </section>
