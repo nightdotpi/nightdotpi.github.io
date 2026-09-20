@@ -1,4 +1,3 @@
-
 export const about: Translations = {
   aboutDigKicker: {
     fa: 'Night Ecosystem',
