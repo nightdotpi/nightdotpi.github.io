@@ -30,18 +30,33 @@ const LANGUAGE_LABELS: Record<Language, string> = {
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
   const [lang, setLangState] = useState<Language>('en');
 
+  /**
+   * کلیدها به‌صورت namespaced و نقطه‌دار هستند، مثل 'hero.nightHeroTitle'.
+   * باید کلید را split کرده و در ساختار تودرتوی translations پایین برویم.
+   */
   const t = (key: string): string => {
     if (!key) return '';
     if (!translations || typeof translations !== 'object') return key;
 
-    const item = (translations as any)[key];
+    const parts = key.split('.');
+    let node: any = translations;
 
-    if (item && typeof item === 'object' && item[lang]) {
-      return item[lang];
+    for (const part of parts) {
+      if (node && typeof node === 'object' && part in node) {
+        node = node[part];
+      } else {
+        return key; // مسیر پیدا نشد، خود کلید را برگردان
+      }
     }
-    if (item && typeof item === 'object' && item.en) {
-      return item.en;
+
+    if (node && typeof node === 'object') {
+      return node[lang] || node.en || key;
     }
+
+    if (typeof node === 'string') {
+      return node;
+    }
+
     return key;
   };
 
