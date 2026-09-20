@@ -46,15 +46,15 @@ const Features = () => {
         <div className="features-heading">
           {/* فرض بر این است که این کلید در ماژول features یا common است */}
           <span className="features-kicker">
-            {t('features.digShortName')}
+            {t('features.nightShortName')}
           </span>
 
           <h2 className="section-title">
-            {t('features.digFeaturesSectionTitle')}
+            {t('features.nightFeaturesSectionTitle')}
           </h2>
 
           <p className="features-intro">
-            {t('features.digFeaturesSectionIntro')}
+            {t('features.nightFeaturesSectionIntro')}
           </p>
         </div>
 
