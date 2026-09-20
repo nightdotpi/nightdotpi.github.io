@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axiosClient from '../lib/axiosClient';
+import { useI18n } from '../i18n/I18nContext';
 import './Payment.css'; // اضافه کردن استایل برای ظاهر مدرن
 
 /**
@@ -19,8 +20,11 @@ const Payment = ({
   onPaymentError = () => {} 
 }) => {
   const { user } = useAuth();
+  const { t, lang } = useI18n();
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
+
+  const direction = lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr';
 
   useEffect(() => {
     if (window.Pi) {
@@ -32,7 +36,7 @@ const Payment = ({
 
   const handlePayment = async () => {
     if (!window.Pi) {
-      setError("Pi SDK is not available. Please open this app in the Pi Browser.");
+      setError(t('payment.piSdkNotAvailable'));
       return;
     }
 
@@ -42,7 +46,7 @@ const Payment = ({
     try {
       const payment = await window.Pi.createPayment({
         amount: 1.0, 
-        memo: "Purchase from PiDao",
+        memo: "Purchase from Night",
         metadata: {
           productId: "item_123",
           userId: user?.uid || 'guest',
@@ -64,30 +68,30 @@ const Payment = ({
               setIsProcessing(false);
               onPaymentSuccess(txid); 
             } catch (err) {
-              setError("Failed to finalize transaction.");
+              setError(t('payment.finalizeFailed'));
               setIsProcessing(false);
               onPaymentError(err);
             }
           });
 
         } catch (err) {
-          setError("Server approval failed.");
+          setError(t('payment.serverApprovalFailed'));
           setIsProcessing(false);
           onPaymentError(err);
         }
       });
 
     } catch (err) {
-      setError(err.message || "Payment failed to start.");
+      setError(err.message || t('payment.startFailed'));
       setIsProcessing(false);
       onPaymentError(err);
     }
   };
 
   return (
-    <div className="payment-container">
+    <div className="payment-container" style={{ direction }}>
       <div className="payment-card">
-        <h2 className="payment-title">Complete Purchase</h2>
+        <h2 className="payment-title">{t('payment.title')}</h2>
         
         {error && (
           <div className="payment-error-box">
@@ -96,9 +100,9 @@ const Payment = ({
         )}
         
         <div className="payment-details-box">
-          <p>Amount: <span className="amount-highlight">1.0 PI</span></p>
-          <p>Product: <span className="product-name">PiDao Premium Item</span></p>
-          {transactionId && <p className="tx-id">ID: {transactionId}</p>}
+          <p>{t('payment.amountLabel')}: <span className="amount-highlight">1.0 PI</span></p>
+          <p>{t('payment.productLabel')}: <span className="product-name">{t('payment.productName')}</span></p>
+          {transactionId && <p className="tx-id">{t('payment.idLabel')}: {transactionId}</p>}
         </div>
 
         <button 
@@ -109,20 +113,20 @@ const Payment = ({
           {isProcessing ? (
             <>
               <span className="spinner"></span>
-              Processing...
+              {t('payment.processing')}
             </>
           ) : (
-            'Pay with Pi'
+            t('payment.payButton')
           )}
         </button>
 
         <button className="payment-reset-btn" onClick={onReset}>
-          Cancel / Reset
+          {t('payment.cancelReset')}
         </button>
 
         {isProcessing && (
           <p className="payment-loader-text">
-            Please do not close the Pi Browser...
+            {t('payment.doNotCloseBrowser')}
           </p>
         )}
       </div>
@@ -131,3 +135,4 @@ const Payment = ({
 };
 
 export default Payment;
+      
