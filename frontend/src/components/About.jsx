@@ -13,31 +13,31 @@ const About = () => {
           {/* ستون اول: معرفی Night */}
           <div className="about-content">
             <div className="about-kicker">
-              {t('about.aboutDigKicker')}
+              {t('about.aboutNightKicker')}
             </div>
 
             <h2 className="about-subtitle">
-              {t('about.aboutDigSubtitle')}
+              {t('about.aboutNightSubtitle')}
             </h2>
 
             <h1 className="about-title">
-              {t('about.aboutDigTitleBefore')}{' '}
+              {t('about.aboutNightTitleBefore')}{' '}
               <span className="highlight">
-                {t('about.aboutDigTitleHighlight')}
+                {t('about.aboutNightTitleHighlight')}
               </span>
             </h1>
 
             <p className="about-text">
-              {t('about.aboutDigText')}
+              {t('about.aboutNightText')}
             </p>
 
             <p className="about-text about-text-secondary">
-              {t('about.aboutDigTextSecondary')}
+              {t('about.aboutNightTextSecondary')}
             </p>
 
             <div className="about-stats">
               <div className="stat-item">
-                <span className="stat-number">DIG</span>
+                <span className="stat-number">NIGHT</span>
                 <span className="stat-label">
                   {t('about.statGlobalGovernance')}
                 </span>
@@ -51,7 +51,7 @@ const About = () => {
               </div>
 
               <div className="stat-item">
-                <span className="stat-number">DAO</span>
+                <span className="stat-number">ecosystem</span>
                 <span className="stat-label">
                   {t('about.statPeopleVoting')}
                 </span>
@@ -65,36 +65,36 @@ const About = () => {
               <div className="vision-icon">🌍</div>
 
               <div className="vision-label">
-                {t('about.digShortName')}
+                {t('about.nightShortName')}
               </div>
 
               <h3>
-                {t('about.digMissionTitle')}
+                {t('about.nightMissionTitle')}
               </h3>
 
               <p>
-                {t('about.digMissionText')}
+                {t('about.nightMissionText')}
               </p>
 
               <div className="vision-points">
                 <div className="vision-point">
                   <span>🗳️</span>
-                  <p>{t('about.digPointVoting')}</p>
+                  <p>{t('about.nightPointVoting')}</p>
                 </div>
 
                 <div className="vision-point">
                   <span>🔍</span>
-                  <p>{t('about.digPointTransparency')}</p>
+                  <p>{t('about.nightPointTransparency')}</p>
                 </div>
 
                 <div className="vision-point">
                   <span>🤝</span>
-                  <p>{t('about.digPointUnity')}</p>
+                  <p>{t('about.nightPointUnity')}</p>
                 </div>
               </div>
 
               <div className="vision-badge">
-                {t('about.digVisionBadge')}
+                {t('about.nightVisionBadge')}
               </div>
             </div>
           </div>
