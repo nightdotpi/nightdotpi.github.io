@@ -4,7 +4,7 @@ import './Poll.css';
 import { useI18n } from '../i18n/I18nContext';
 import { useAuth } from '../context/AuthContext';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://pidao.bonto.run/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://night.bonto.run/api';
 
 const Poll = () => {
   const { t, lang } = useI18n();
