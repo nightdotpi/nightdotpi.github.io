@@ -1,6 +1,6 @@
 // frontend/src/i18n/I18nContext.tsx
-import React, { createContext, useContext, useEffect, useMemo, useState, ReactNode } from 'react';
-import { translations } from './translations'; // این مسیر نباید حلقوی باشد
+import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+import { translations } from './translations';
 
 export type Language = 'en' | 'fa' | 'ar' | 'tr' | 'zh';
 export type Direction = 'ltr' | 'rtl';
@@ -11,21 +11,29 @@ interface I18nContextType {
   isRtl: boolean;
   setLang: (lang: Language) => void;
   t: (key: string) => string;
+  supportedLanguages: Language[];
+  languageLabels: Record<Language, string>;
 }
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
+const SUPPORTED_LANGUAGES: Language[] = ['en', 'fa', 'ar', 'tr', 'zh'];
+
+const LANGUAGE_LABELS: Record<Language, string> = {
+  en: 'English',
+  fa: 'فارسی',
+  ar: 'العربية',
+  tr: 'Türkçe',
+  zh: '中文',
+};
+
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
   const [lang, setLangState] = useState<Language>('en');
 
-  // استفاده از تابع t ایمن شده
   const t = (key: string): string => {
     if (!key) return '';
-    
-    // ایمنی: اگر به هر دلیلی translations لود نشده بود کرش نکند
     if (!translations || typeof translations !== 'object') return key;
 
-    // دسترسی به کلید
     const item = (translations as any)[key];
 
     if (item && typeof item === 'object' && item[lang]) {
@@ -51,6 +59,8 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
     isRtl,
     setLang,
     t,
+    supportedLanguages: SUPPORTED_LANGUAGES,
+    languageLabels: LANGUAGE_LABELS,
   }), [lang, direction, isRtl]);
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
