@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const poll: Translations = {
   pollQuestion: {
     fa: 'آیا از توسعه اکوسیستم Night و کاربردهای واقعی NTP حمایت می‌کنید؟',
