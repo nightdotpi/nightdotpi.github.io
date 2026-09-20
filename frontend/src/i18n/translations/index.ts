@@ -15,8 +15,8 @@ import { piHomeLogin } from './piHomeLogin';
 import { piPaymentPanel } from './piPaymentPanel';
 import { signIn } from './signIn';
 import { header } from './header';
-import { homePage } from './homePage';
-import { digPage } from './digPage';
+import { home } from './home';
+import { dig } from './dig';
 import { success } from './success';
 import { history } from './history';
 import { productCard } from './productCard';
@@ -40,8 +40,8 @@ export const translations = {
   piPaymentPanel,
   signIn,
   header,
-  homePage,
-  digPage,
+  home,
+  dig,
   success,
   history,
   productCard,
