@@ -1,145 +1,220 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+// frontend/src/components/Poll.jsx
+import React, { useEffect, useState } from 'react';
+import './Poll.css';
+import { useI18n } from '../i18n/I18nContext';
+import { useAuth } from '../context/AuthContext';
 
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://night.bonto.run/api';
 
-    <meta
-      name="description"
-      content="NIGHT - Night ecosystem powered by Pi Network"
-    />
+const Poll = () => {
+  const { t, lang } = useI18n();
+  const auth = useAuth();
 
-    <meta name="theme-color" content="#673ab7" />
+  const [loading, setLoading] = useState(true);
+  const [voting, setVoting] = useState(false);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
-    <!-- Pi Domain Validation -->
-    <link rel="pi-domain-validation" href="/validation-key.txt" />
+  const [votes, setVotes] = useState({ yes: 0, no: 0, total: 0, yesPercent: 0, noPercent: 0 });
+  const [pollData, setPollData] = useState(null);
+  const [userVote, setUserVote] = useState(null);
+  const [history, setHistory] = useState([]);
 
-    <title>NIGHT - Night ecosystem</title>
-  </head>
+  const textAlign = lang === 'fa' || lang === 'ar' ? 'right' : 'left';
 
-  <body>
-    <div id="root"></div>
+  const getAuthHeaders = () => {
+    const token = localStorage.getItem('token');
+    return {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
+  };
 
-    <!-- Pi Browser Guard -->
-    <script>
-      (function () {
-        try {
-          var requiredHost = 'nightdotpi.github.io';
-          var appUrl = 'https://nightdotpi.github.io';
+  const getLocalizedQuestion = () => {
+    if (!pollData) return t('poll.question.default');
+    return pollData[`question${lang.charAt(0).toUpperCase() + lang.slice(1)}`] || pollData.question || t('poll.question.default');
+  };
 
-          var userAgent = navigator.userAgent || '';
-          var isPiBrowser = /PiBrowser|Pi Browser|MinePi/i.test(userAgent);
-          var isRequiredHost = window.location.hostname === requiredHost;
+  const maskUsername = (username) => {
+    if (!username) return '@Pi***';
+    const clean = String(username).replace(/^@/, '').trim();
+    if (!clean) return '@Pi***';
+    if (clean.length <= 2) return `@${clean[0] || 'P'}***`;
+    if (clean.length <= 5) return `@${clean.slice(0, 2)}***`;
+    const visiblePart = clean.slice(0, Math.min(4, clean.length - 2));
+    const hiddenLength = Math.max(3, clean.length - visiblePart.length);
+    return `@${visiblePart}${'*'.repeat(hiddenLength)}`;
+  };
 
-          var shouldBlock = isRequiredHost && !isPiBrowser;
+  const fetchPoll = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      const response = await fetch(`${API_BASE_URL}/poll/current`, { method: 'GET', headers: getAuthHeaders() });
+      const data = await response.json();
+      if (!response.ok || !data.success) throw new Error(data.message || t('poll.errors.connection'));
+      setVotes(data.data.votes);
+      setUserVote(data.data.userVote);
+      setPollData(data.data.poll || null);
+    } catch (err) {
+      console.error('Poll fetch error:', err);
+      setError(err.message || t('poll.errors.connection'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
-          window.__PI_BROWSER_REQUIRED_BLOCKED__ = shouldBlock;
+  const fetchVoteHistory = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/poll/history`, { method: 'GET', headers: getAuthHeaders() });
+      const data = await response.json();
+      if (response.ok && data.success) setHistory(Array.isArray(data.data) ? data.data : []);
+    } catch (err) {
+      console.warn('Vote history fetch error:', err);
+    }
+  };
 
-          if (!shouldBlock) {
-            return;
-          }
+  // فقط یک بار useEffect برای لود اولیه
+  useEffect(() => {
+    fetchPoll();
+    fetchVoteHistory();
+  }, []);
 
-          var root = document.getElementById('root');
+  // فقط یک بار useEffect برای آپدیت در صورت تغییر وضعیت Auth
+  useEffect(() => {
+    if (auth?.isAuthenticated) {
+      fetchPoll();
+      fetchVoteHistory();
+    }
+  }, [auth?.isAuthenticated]);
 
-          if (!root) {
-            document.body.innerHTML =
-              '<div style="padding:24px;font-family:Arial">Root element not found.</div>';
-            return;
-          }
+  const handleVote = async (option) => {
+    if (!auth?.isAuthenticated) {
+      setMessage(t('poll.messages.loginRequired'));
+      return;
+    }
+    if (userVote) {
+      setMessage(t('poll.messages.alreadyVoted'));
+      return;
+    }
 
-          root.innerHTML =
-            '<div id="piGuardPage" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;background:#111827;color:#fff;font-family:Arial,sans-serif;box-sizing:border-box;">' +
-              '<div style="width:100%;max-width:520px;background:#1f2937;border-radius:18px;padding:28px;box-shadow:0 20px 40px rgba(0,0,0,.35);box-sizing:border-box;">' +
-                '<div style="width:76px;height:76px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#fbbf24,#a855f7);color:#111827;font-size:34px;font-weight:900;">π</div>' +
-                '<h1 style="margin:0 0 14px;font-size:24px;line-height:1.5;color:#fff;">Open this app in Pi Browser</h1>' +
-                '<p style="margin:0 0 18px;color:#d1d5db;font-size:15px;line-height:1.8;">This app is built for Pi Network. Pi login, payments, and Pi features work only inside <strong>Pi Browser</strong>.</p>' +
-                '<button id="copyPiAppUrlButton" type="button" style="display:block;width:100%;border:0;border-radius:14px;padding:14px 18px;font-size:16px;font-weight:700;cursor:pointer;background:#fbbf24;color:#111827;margin-top:14px;">Copy app address</button>' +
-                '<button id="manualPiBrowserButton" type="button" style="display:block;width:100%;border:0;border-radius:14px;padding:14px 18px;font-size:16px;font-weight:700;cursor:pointer;background:#374151;color:#fff;margin-top:12px;">I will open Pi Browser manually</button>' +
-                '<div id="piBrowserNote" style="margin-top:16px;font-size:13px;color:#9ca3af;line-height:1.8;">Tap “Copy app address”, then open Pi Browser manually and paste it there.</div>' +
-              '</div>' +
-            '</div>';
+    try {
+      setVoting(true);
+      setError('');
+      setMessage('');
+      const response = await fetch(`${API_BASE_URL}/poll/vote`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ option }),
+      });
+      const data = await response.json();
 
-          var copyButton = document.getElementById('copyPiAppUrlButton');
-          var manualButton = document.getElementById('manualPiBrowserButton');
-          var note = document.getElementById('piBrowserNote');
-
-          function setNote(text) {
-            if (note) {
-              note.textContent = text;
-            }
-          }
-
-          function copyAppUrl() {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-              navigator.clipboard
-                .writeText(appUrl)
-                .then(function () {
-                  if (copyButton) {
-                    copyButton.textContent = 'App address copied';
-                  }
-
-                  setNote(
-                    'Now open Pi Browser manually and paste the copied address.'
-                  );
-                })
-                .catch(function () {
-                  if (copyButton) {
-                    copyButton.textContent = 'Copy failed';
-                  }
-
-                  setNote(
-                    'Copy failed. Please open Pi Browser manually and type the app address.'
-                  );
-                });
-            } else {
-              if (copyButton) {
-                copyButton.textContent = 'Copy not supported';
-              }
-
-              setNote(
-                'Please open Pi Browser manually and type the app address.'
-              );
-            }
-          }
-
-          if (copyButton) {
-            copyButton.addEventListener('click', copyAppUrl);
-          }
-
-          if (manualButton) {
-            manualButton.addEventListener('click', function () {
-              setNote(
-                'Open Pi Browser manually, then paste the copied app address in the Pi Browser address bar.'
-              );
-            });
-          }
-        } catch (error) {
-          console.error('Pi Browser Guard error:', error);
-
-          window.__PI_BROWSER_REQUIRED_BLOCKED__ = false;
-
-          var rootFallback = document.getElementById('root');
-
-          if (rootFallback) {
-            rootFallback.innerHTML =
-              '<div style="padding:24px;font-family:Arial;color:#111;">An error occurred while loading the Pi Browser guide. Please refresh the page.</div>';
-          }
+      if (!response.ok || !data.success) {
+        if (response.status === 409) {
+          setVotes(data.data.votes);
+          setUserVote(data.data.userVote);
+          setPollData(data.data.poll);
+          setMessage(t('poll.messages.alreadyVoted'));
+          return;
         }
-      })();
-    </script>
+        throw new Error(data.message || t('poll.errors.connection'));
+      }
 
-    <!-- Debug Console (TEMPORARY - remove after debugging) -->
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
+      setVotes(data.data.votes);
+      setUserVote(data.data.userVote);
+      setPollData(data.data.poll);
+      setMessage(t('poll.messages.voteSuccess'));
+      await fetchVoteHistory();
+    } catch (err) {
+      setError(err.message || t('poll.errors.connection'));
+    } finally {
+      setVoting(false);
+    }
+  };
 
-    <!-- Pi Network SDK must be loaded before React app -->
-    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  const formatDate = (date) => date ? new Date(date).toLocaleString(lang === 'fa' ? 'fa-IR' : 'en-US') : '';
 
-    <!-- React/Vite entry -->
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+  if (loading) {
+    return (
+      <section id="poll" className="poll-section">
+        <div className="poll-container">
+          <div className="poll-badge">{t('common.brandName')} · {t('poll.governance')}</div>
+          <p className="poll-loading-text">{t('poll.status.loading')}</p>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section id="poll" className="poll-section">
+      <div className="poll-container">
+        <div className="poll-badge">{t('common.brandName')} · {t('poll.governance')}</div>
+
+        {/* نمایش پیام خطا یا موفقیت */}
+        {(message || error) && (
+          <div className={error ? 'poll-alert poll-alert-error' : 'poll-alert'}>
+            {error || message}
+          </div>
+        )}
+
+        {/* بخش سوال */}
+        <h3 className="poll-question" style={{ textAlign }}>
+          {getLocalizedQuestion()}
+        </h3>
+
+        {/* بخش نمایش نتایج */}
+        <div className="poll-results">
+          <div className="poll-result-label" style={{ textAlign }}>
+            <span>{t('poll.labels.yes')}</span>
+            <strong>{votes.yesPercent}% ({votes.yes})</strong>
+          </div>
+          <div className="result-bar-container">
+            <div className="result-bar result-bar-yes" style={{ width: `${votes.yesPercent}%` }}></div>
+          </div>
+
+          <div className="poll-result-label poll-result-label-no" style={{ textAlign }}>
+            <span>{t('poll.labels.no')}</span>
+            <strong>{votes.noPercent}% ({votes.no})</strong>
+          </div>
+          <div className="result-bar-container">
+            <div className="result-bar result-bar-no" style={{ width: `${votes.noPercent}%` }}></div>
+          </div>
+        </div>
+
+        {/* بخش دکمه‌های رای‌دهی */}
+        {!userVote && !voting && (
+          <div className="poll-actions">
+            <button onClick={() => handleVote('yes')} className="poll-btn poll-btn-yes">{t('poll.labels.yes')}</button>
+            <button onClick={() => handleVote('no')} className="poll-btn poll-btn-no">{t('poll.labels.no')}</button>
+          </div>
+        )}
+        {voting && <div className="poll-loading-text">{t('common.loading')}...</div>}
+
+        {/* بخش تاریخچه رای‌ها */}
+        {history.length > 0 && (
+          <div className="poll-history" style={{ textAlign }}>
+            <strong className="poll-history-title">{t('poll.history.title')}</strong>
+            <ul className="poll-history-list">
+              {history.map((item) => (
+                <li key={item.id} className="poll-history-item">
+                  {item.question_snapshot && <div className="poll-history-question">{item.question_snapshot}</div>}
+                  <div className="poll-history-meta">
+                    <span className="poll-history-user">{maskUsername(item.username)}</span>
+                    <span className="poll-history-separator"> · </span>
+                    <span className="poll-history-option">
+                      {item.vote_option === 'yes' ? t('poll.labels.yes') : t('poll.labels.no')}
+                    </span>
+                    <span className="poll-history-separator"> - </span>
+                    <span className="poll-history-date">{formatDate(item.created_at)}</span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default Poll;
