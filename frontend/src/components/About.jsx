@@ -10,50 +10,50 @@ const About = () => {
     <section id="about" className="about-section">
       <div className="container">
         <div className="about-wrapper">
-          {/* ستون اول: معرفی NIGHT */}
+          {/* ستون اول: معرفی Night */}
           <div className="about-content">
             <div className="about-kicker">
-              {t('aboutDigKicker')}
+              {t('about.aboutDigKicker')}
             </div>
 
             <h2 className="about-subtitle">
-              {t('aboutDigSubtitle')}
+              {t('about.aboutDigSubtitle')}
             </h2>
 
             <h1 className="about-title">
-              {t('aboutDigTitleBefore')}{' '}
+              {t('about.aboutDigTitleBefore')}{' '}
               <span className="highlight">
-                {t('aboutDigTitleHighlight')}
+                {t('about.aboutDigTitleHighlight')}
               </span>
             </h1>
 
             <p className="about-text">
-              {t('aboutDigText')}
+              {t('about.aboutDigText')}
             </p>
 
             <p className="about-text about-text-secondary">
-              {t('aboutDigTextSecondary')}
+              {t('about.aboutDigTextSecondary')}
             </p>
 
             <div className="about-stats">
               <div className="stat-item">
                 <span className="stat-number">DIG</span>
                 <span className="stat-label">
-                  {t('statGlobalGovernance')}
+                  {t('about.statGlobalGovernance')}
                 </span>
               </div>
 
               <div className="stat-item">
                 <span className="stat-number">Pi</span>
                 <span className="stat-label">
-                  {t('statPiIdentity')}
+                  {t('about.statPiIdentity')}
                 </span>
               </div>
 
               <div className="stat-item">
                 <span className="stat-number">DAO</span>
                 <span className="stat-label">
-                  {t('statPeopleVoting')}
+                  {t('about.statPeopleVoting')}
                 </span>
               </div>
             </div>
@@ -65,36 +65,36 @@ const About = () => {
               <div className="vision-icon">🌍</div>
 
               <div className="vision-label">
-                {t('digShortName')}
+                {t('about.digShortName')}
               </div>
 
               <h3>
-                {t('digMissionTitle')}
+                {t('about.digMissionTitle')}
               </h3>
 
               <p>
-                {t('digMissionText')}
+                {t('about.digMissionText')}
               </p>
 
               <div className="vision-points">
                 <div className="vision-point">
                   <span>🗳️</span>
-                  <p>{t('digPointVoting')}</p>
+                  <p>{t('about.digPointVoting')}</p>
                 </div>
 
                 <div className="vision-point">
                   <span>🔍</span>
-                  <p>{t('digPointTransparency')}</p>
+                  <p>{t('about.digPointTransparency')}</p>
                 </div>
 
                 <div className="vision-point">
                   <span>🤝</span>
-                  <p>{t('digPointUnity')}</p>
+                  <p>{t('about.digPointUnity')}</p>
                 </div>
               </div>
 
               <div className="vision-badge">
-                {t('digVisionBadge')}
+                {t('about.digVisionBadge')}
               </div>
             </div>
           </div>
