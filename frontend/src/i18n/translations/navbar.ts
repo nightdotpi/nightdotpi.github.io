@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const navbar: Translations = {
   home: {
     fa: 'خانه',
