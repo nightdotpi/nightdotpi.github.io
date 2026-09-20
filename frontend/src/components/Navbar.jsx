@@ -40,15 +40,15 @@ const Navbar = () => {
       <div className="navbar-container">
         {/* لوگو */}
         <div className="navbar-logo">
-          <Link to="/" className="navbar-logo-link" aria-label="PiDao Home">
+          <Link to="/" className="navbar-logo-link" aria-label={t('common.homeAriaLabel') || 'Night Home'}>
             <img
               src={logo}
-              alt="PiDao Logo"
+              alt="Night Logo"
               className="navbar-logo-img"
             />
 
             <span className="navbar-logo-text">
-              Pi<span>DAO</span>
+              Nigh<span>t</span>
             </span>
           </Link>
         </div>
@@ -57,13 +57,13 @@ const Navbar = () => {
         <ul className="nav-menu">
           <li className="nav-item">
             <Link to="/" className="nav-link">
-              {t('home')}
+              {t('common.home')}
             </Link>
           </li>
 
           <li className="nav-item">
             <Link to="/dig" className="nav-link">
-              {t('navDig')}
+              {t('nav.dig')}
             </Link>
           </li>
 
@@ -73,7 +73,7 @@ const Navbar = () => {
               className="nav-link nav-button"
               onClick={() => scrollToSection('features')}
             >
-              {t('features')}
+              {t('common.features')}
             </button>
           </li>
 
@@ -83,7 +83,7 @@ const Navbar = () => {
               className="nav-link nav-button"
               onClick={() => scrollToSection('roadmap')}
             >
-              {t('navRoadmap')}
+              {t('nav.roadmap')}
             </button>
           </li>
 
@@ -93,7 +93,7 @@ const Navbar = () => {
               className="nav-link nav-button"
               onClick={() => scrollToSection('poll')}
             >
-              {t('governance')}
+              {t('common.governance')}
             </button>
           </li>
 
@@ -103,24 +103,22 @@ const Navbar = () => {
               className="nav-link nav-button"
               onClick={() => scrollToSection('about')}
             >
-              {t('aboutUs')}
+              {t('common.aboutUs')}
             </button>
           </li>
 
           <li className="nav-item">
             <Link to="/shop" className="nav-link">
-              {t('shop')}
+              {t('common.shop')}
             </Link>
           </li>
 
           <li className="nav-item">
             <Link to="/tasks" className="nav-link">
-              {t('tasks')}
+              {t('common.tasks')}
             </Link>
           </li>
         </ul>
-
-        {/* دکمه Login از Navbar حذف شده تا ورود اصلی با Pi داخل صفحه انجام شود */}
       </div>
     </nav>
   );
