@@ -31,14 +31,14 @@ const LanguageSwitcher: React.FC = () => {
           fontWeight: 600,
         }}
       >
-        {t('language')}:
+        {t('common.language')}:
       </label>
 
       <select
         id="language-switcher"
         value={lang}
         onChange={(e) => setLang(e.target.value as Language)}
-        aria-label={t('language')}
+        aria-label={t('common.language')}
         style={{
           padding: '8px 12px',
           borderRadius: '10px',
