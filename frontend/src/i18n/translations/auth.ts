@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const auth: Translations = {
   loginWithPi: {
     fa: 'ورود با Pi',
