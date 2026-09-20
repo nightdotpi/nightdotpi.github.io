@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const success: Translations = {
   successTitle: {
     fa: 'عملیات موفق',
