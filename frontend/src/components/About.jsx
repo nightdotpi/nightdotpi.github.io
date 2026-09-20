@@ -10,7 +10,7 @@ const About = () => {
     <section id="about" className="about-section">
       <div className="container">
         <div className="about-wrapper">
-          {/* ستون اول: معرفی PiDao و DIG */}
+          {/* ستون اول: معرفی NIGHT */}
           <div className="about-content">
             <div className="about-kicker">
               {t('aboutDigKicker')}
