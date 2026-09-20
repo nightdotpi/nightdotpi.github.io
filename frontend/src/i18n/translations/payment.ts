@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const payment: Translations = {
   purchaseSuccess: {
     fa: 'پرداخت با موفقیت انجام شد',
