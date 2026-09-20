@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const languageSwitcher: Translations = {
   languageSwitcherLabel: {
     fa: 'زبان',
