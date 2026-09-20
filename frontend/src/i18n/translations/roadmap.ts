@@ -1,5 +1,3 @@
-import type { Translations } from '../I18nContext';
-
 export const roadmap: Translations = {
   roadmapTitle: {
     fa: 'مسیر راه Night',
