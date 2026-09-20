@@ -6,42 +6,43 @@ import { useI18n } from '../i18n/I18nContext';
 const Roadmap = () => {
   const { t } = useI18n();
 
+  // انتقال کلیدها به ساختار Namespaced
   const steps = [
     {
       number: '01',
       icon: '🌱',
-      title: t('roadmapStep1Title'),
-      description: t('roadmapStep1Description'),
+      title: t('roadmap.step1.title'),
+      description: t('roadmap.step1.description'),
     },
     {
       number: '02',
       icon: '🗳️',
-      title: t('roadmapStep2Title'),
-      description: t('roadmapStep2Description'),
+      title: t('roadmap.step2.title'),
+      description: t('roadmap.step2.description'),
     },
     {
       number: '03',
       icon: 'π',
-      title: t('roadmapStep3Title'),
-      description: t('roadmapStep3Description'),
+      title: t('roadmap.step3.title'),
+      description: t('roadmap.step3.description'),
     },
     {
       number: '04',
       icon: '🌐',
-      title: t('roadmapStep4Title'),
-      description: t('roadmapStep4Description'),
+      title: t('roadmap.step4.title'),
+      description: t('roadmap.step4.description'),
     },
     {
       number: '05',
       icon: '🏛️',
-      title: t('roadmapStep5Title'),
-      description: t('roadmapStep5Description'),
+      title: t('roadmap.step5.title'),
+      description: t('roadmap.step5.description'),
     },
     {
       number: '06',
       icon: '💠',
-      title: t('roadmapStep6Title'),
-      description: t('roadmapStep6Description'),
+      title: t('roadmap.step6.title'),
+      description: t('roadmap.step6.description'),
     },
   ];
 
@@ -49,16 +50,17 @@ const Roadmap = () => {
     <section id="roadmap" className="roadmap-section">
       <div className="container">
         <div className="roadmap-heading">
+          {/* استفاده از نِی‌اسپیس برای عنوان‌های اصلی */}
           <span className="roadmap-kicker">
-            {t('digShortName')}
+            {t('common.brandName')}
           </span>
 
           <h2 className="roadmap-title">
-            {t('roadmapTitle')}
+            {t('roadmap.title')}
           </h2>
 
           <p className="roadmap-intro">
-            {t('roadmapIntro')}
+            {t('roadmap.intro')}
           </p>
         </div>
 
