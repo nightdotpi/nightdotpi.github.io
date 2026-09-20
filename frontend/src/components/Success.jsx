@@ -82,24 +82,24 @@ const Success = ({ transactionId, onReset }) => {
         <div style={styles.icon}>✅</div>
 
         <h2 style={styles.title}>
-          {t('paymentSuccessful')}
+          {t('payment.success.title')}
         </h2>
 
         <p style={styles.text}>
-          {t('transactionRegistered')}
+          {t('payment.success.description')}
         </p>
 
         <div style={styles.txId}>
-          <strong>{t('transactionIdentifier')}:</strong>
+          <strong>{t('payment.success.txIdLabel')}:</strong>
           <br />
-          {transactionId || t('processing')}
+          {transactionId || t('payment.success.processing')}
         </div>
 
         <button
           style={styles.button}
           onClick={handleBackHome}
         >
-          {t('backToHome')}
+          {t('common.backToHome')}
         </button>
       </div>
     </div>
