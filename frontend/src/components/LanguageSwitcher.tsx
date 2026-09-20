@@ -1,63 +1,73 @@
-// frontend/src/components/LanguageSwitcher.tsx
-import React from 'react';
-import { Language, useI18n } from '../i18n/I18nContext';
+// frontend/src/i18n/I18nContext.tsx
+import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+import { translations } from './translations';
 
-const LanguageSwitcher: React.FC = () => {
-  const {
-    lang,
-    setLang,
-    t,
-    supportedLanguages,
-    languageLabels,
-  } = useI18n();
+export type Language = 'en' | 'fa' | 'ar' | 'tr' | 'zh';
+export type Direction = 'ltr' | 'rtl';
 
-  return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: '8px',
-        margin: '16px auto',
-        fontFamily: 'sans-serif',
-        direction: lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr',
-      }}
-    >
-      <label
-        htmlFor="language-switcher"
-        style={{
-          fontSize: '13px',
-          color: '#666',
-          fontWeight: 600,
-        }}
-      >
-        {t('common.language')}:
-      </label>
+interface I18nContextType {
+  lang: Language;
+  direction: Direction;
+  isRtl: boolean;
+  setLang: (lang: Language) => void;
+  t: (key: string) => string;
+  supportedLanguages: Language[];
+  languageLabels: Record<Language, string>;
+}
 
-      <select
-        id="language-switcher"
-        value={lang}
-        onChange={(e) => setLang(e.target.value as Language)}
-        aria-label={t('common.language')}
-        style={{
-          padding: '8px 12px',
-          borderRadius: '10px',
-          border: '1px solid #ccc',
-          background: '#fff',
-          color: '#111827',
-          cursor: 'pointer',
-          fontWeight: 600,
-          minWidth: '130px',
-        }}
-      >
-        {supportedLanguages.map((language) => (
-          <option key={language} value={language}>
-            {languageLabels[language]}
-          </option>
-        ))}
-      </select>
-    </div>
-  );
+const I18nContext = createContext<I18nContextType | undefined>(undefined);
+
+const SUPPORTED_LANGUAGES: Language[] = ['en', 'fa', 'ar', 'tr', 'zh'];
+
+const LANGUAGE_LABELS: Record<Language, string> = {
+  en: 'English',
+  fa: 'فارسی',
+  ar: 'العربية',
+  tr: 'Türkçe',
+  zh: '中文',
 };
 
-export default LanguageSwitcher;
+export const I18nProvider = ({ children }: { children: ReactNode }) => {
+  const [lang, setLangState] = useState<Language>('en');
+
+  const t = (key: string): string => {
+    if (!key) return '';
+    if (!translations || typeof translations !== 'object') return key;
+
+    const item = (translations as any)[key];
+
+    if (item && typeof item === 'object' && item[lang]) {
+      return item[lang];
+    }
+    if (item && typeof item === 'object' && item.en) {
+      return item.en;
+    }
+    return key;
+  };
+
+  const direction: Direction = lang === 'fa' || lang === 'ar' ? 'rtl' : 'ltr';
+  const isRtl = direction === 'rtl';
+
+  const setLang = (nextLang: Language) => {
+    setLangState(nextLang);
+    localStorage.setItem('picex_lang', nextLang);
+  };
+
+  const value = useMemo(() => ({
+    lang,
+    direction,
+    isRtl,
+    setLang,
+    t,
+    supportedLanguages: SUPPORTED_LANGUAGES,
+    languageLabels: LANGUAGE_LABELS,
+  }), [lang, direction, isRtl]);
+
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
+};
+
+export const useI18n = () => {
+  const context = useContext(I18nContext);
+  if (!context) throw new Error('useI18n must be used inside I18nProvider');
+  return context;
+};
