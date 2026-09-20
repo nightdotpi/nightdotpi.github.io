@@ -17,146 +17,146 @@ const Dig: React.FC = () => {
       <main className="dig-main">
         <div className="dig-language">
           <LanguageSwitcher />
-        </div>
+        </div >
 
         <section className="dig-hero-section">
           <div className="dig-container">
             <div className="dig-badge">
-              {t('digShortName')} · {t('digFullName')}
-            </div>
+              {t('dig.shortName')} · {t('dig.fullName')}
+            </div >
 
             <h1 className="dig-title">
-              {t('digPageTitle')}
+              {t('dig.pageTitle')}
             </h1>
 
             <p className="dig-lead">
-              {t('digPageLead')}
+              {t('dig.pageLead')}
             </p>
 
             <div className="dig-actions">
               <Link to="/" className="dig-primary-link">
-                {t('backToHome')}
+                {t('common.backToHome')}
               </Link>
 
               <a href="#dig-roadmap" className="dig-secondary-link">
-                {t('navRoadmap')}
+                {t('dig.navRoadmap')}
               </a>
-            </div>
-          </div>
-        </section>
+            </div >
+          </div >
+        </section >
 
         <section className="dig-content-section">
           <div className="dig-container dig-grid">
             <article className="dig-card dig-card-large">
               <span className="dig-card-icon">🌍</span>
-              <h2>{t('digWhatTitle')}</h2>
-              <p>{t('digWhatText')}</p>
-            </article>
+              <h2>{t('dig.what.title')}</h2>
+              <p>{t('dig.what.text')}</p>
+            </article >
 
             <article className="dig-card">
               <span className="dig-card-icon">🗳️</span>
-              <h3>{t('digVotingTitle')}</h3>
-              <p>{t('digVotingText')}</p>
-            </article>
+              <h3>{t('dig.voting.title')}</h3>
+              <p>{t('dig.voting.text')}</p>
+            </article >
 
             <article className="dig-card">
               <span className="dig-card-icon">🔍</span>
-              <h3>{t('digTransparencyTitle')}</h3>
-              <p>{t('digTransparencyText')}</p>
-            </article>
+              <h3>{t('dig.transparency.title')}</h3>
+              <p>{t('dig.transparency.text')}</p>
+            </article >
 
             <article className="dig-card">
               <span className="dig-card-icon">π</span>
-              <h3>{t('digPiRoleTitle')}</h3>
-              <p>{t('digPiRoleText')}</p>
-            </article>
+              <h3>{t('dig.piRole.title')}</h3>
+              <p>{t('dig.piRole.text')}</p>
+            </article >
 
             <article className="dig-card">
               <span className="dig-card-icon">🤝</span>
-              <h3>{t('digConflictTitle')}</h3>
-              <p>{t('digConflictText')}</p>
-            </article>
+              <h3>{t('dig.conflict.title')}</h3>
+              <p>{t('dig.conflict.text')}</p>
+            </article >
 
             <article className="dig-card">
               <span className="dig-card-icon">💠</span>
-              <h3>{t('digDibTitle')}</h3>
-              <p>{t('digDibText')}</p>
-            </article>
-          </div>
-        </section>
+              <h3>{t('dig.dib.title')}</h3>
+              <p>{t('dig.dib.text')}</p>
+            </article >
+          </div >
+        </section >
 
         <section id="dig-roadmap" className="dig-roadmap-section">
           <div className="dig-container">
             <div className="dig-section-heading">
-              <span>{t('digShortName')}</span>
-              <h2>{t('digManifestoRoadmapTitle')}</h2>
-              <p>{t('digManifestoRoadmapIntro')}</p>
-            </div>
+              <span>{t('dig.shortName')}</span>
+              <h2>{t('dig.manifestoRoadmap.title')}</h2>
+              <p>{t('dig.manifestoRoadmap.intro')}</p>
+            </div >
 
             <div className="dig-roadmap-list">
               <div className="dig-roadmap-item">
                 <strong>01</strong>
                 <div>
-                  <h3>{t('roadmapStep1Title')}</h3>
-                  <p>{t('roadmapStep1Description')}</p>
-                </div>
-              </div>
+                  <h3>{t('dig.roadmap.step1.title')}</h3>
+                  <p>{t('dig.roadmap.step1.description')}</p>
+                </div >
+              </div >
 
               <div className="dig-roadmap-item">
                 <strong>02</strong>
                 <div>
-                  <h3>{t('roadmapStep2Title')}</h3>
-                  <p>{t('roadmapStep2Description')}</p>
-                </div>
-              </div>
+                  <h3>{t('dig.roadmap.step2.title')}</h3>
+                  <p>{t('dig.roadmap.step2.description')}</p>
+                </div >
+              </div >
 
               <div className="dig-roadmap-item">
                 <strong>03</strong>
                 <div>
-                  <h3>{t('roadmapStep3Title')}</h3>
-                  <p>{t('roadmapStep3Description')}</p>
-                </div>
-              </div>
+                  <h3>{t('dig.roadmap.step3.title')}</h3>
+                  <p>{t('dig.roadmap.step3.description')}</p>
+                </div >
+              </div >
 
               <div className="dig-roadmap-item">
                 <strong>04</strong>
                 <div>
-                  <h3>{t('roadmapStep4Title')}</h3>
-                  <p>{t('roadmapStep4Description')}</p>
-                </div>
-              </div>
+                  <h3>{t('dig.roadmap.step4.title')}</h3>
+                  <p>{t('dig.roadmap.step4.description')}</p>
+                </div >
+              </div >
 
               <div className="dig-roadmap-item">
                 <strong>05</strong>
                 <div>
-                  <h3>{t('roadmapStep5Title')}</h3>
-                  <p>{t('roadmapStep5Description')}</p>
-                </div>
-              </div>
+                  <h3>{t('dig.roadmap.step5.title')}</h3>
+                  <p>{t('dig.roadmap.step5.description')}</p>
+                </div >
+              </div >
 
               <div className="dig-roadmap-item">
                 <strong>06</strong>
                 <div>
-                  <h3>{t('roadmapStep6Title')}</h3>
-                  <p>{t('roadmapStep6Description')}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+                  <h3>{t('dig.roadmap.step6.title')}</h3>
+                  <p>{t('dig.roadmap.step6.description')}</p>
+                </div >
+              </div >
+            </div >
+          </div >
+        </section >
 
         <section className="dig-disclaimer-section">
           <div className="dig-container">
             <div className="dig-disclaimer">
-              <h2>{t('digDisclaimerTitle')}</h2>
-              <p>{t('digDisclaimerText')}</p>
-            </div>
-          </div>
-        </section>
-      </main>
+              <h2>{t('dig.disclaimer.title')}</h2>
+              <p>{t('dig.disclaimer.text')}</p>
+            </div >
+          </div >
+        </section >
+      </main >
 
       <Footer />
-    </div>
+    </div >
   );
 };
 
