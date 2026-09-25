@@ -36,7 +36,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
           fontFamily: 'sans-serif',
         }}
       >
-        <p>{t('connectingToServer')}</p>
+        <p>{t('common.connectingToServer')}</p>
       </div>
     );
   }
@@ -58,7 +58,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
           fontFamily: 'sans-serif',
         }}
       >
-        {t('loading')}
+        {t('common.loading')}
       </div>
     );
   }
@@ -155,3 +155,4 @@ const AppRouter: React.FC = () => {
 };
 
 export default AppRouter;
+        
