@@ -1,37 +1,38 @@
-export const productCard: Translations = {
+// frontend/src/i18n/translations/productCard.ts
+export const productCard = {
   price: {
     fa: 'قیمت',
     en: 'Price',
     tr: 'Fiyat',
     zh: '价格',
-    hi: 'कीमत',
     ar: 'السعر',
   },
-
   buyNow: {
     fa: 'خرید',
     en: 'Buy Now',
     tr: 'Satın Al',
     zh: '立即购买',
-    hi: 'अभी खरीदें',
     ar: 'اشترِ الآن',
   },
-
+  processing: {
+    fa: 'در حال پردازش...',
+    en: 'Processing...',
+    tr: 'İşleniyor...',
+    zh: '处理中...',
+    ar: 'جارٍ المعالجة...',
+  },
   details: {
     fa: 'جزئیات',
     en: 'Details',
     tr: 'Detaylar',
     zh: '详情',
-    hi: 'विवरण',
     ar: 'التفاصيل',
   },
-
   comingSoon: {
     fa: 'به‌زودی',
     en: 'Coming soon',
     tr: 'Yakında',
     zh: '即将推出',
-    hi: 'जल्द आ रहा है',
     ar: 'قريباً',
   },
 };
