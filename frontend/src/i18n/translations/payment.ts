@@ -1,103 +1,124 @@
-export const payment: Translations = {
-  purchaseSuccess: {
-    fa: 'پرداخت با موفقیت انجام شد',
-    en: 'Payment completed successfully',
-    tr: 'Ödeme başarıyla tamamlandı',
-    zh: '支付成功完成',
-    hi: 'भुगतान सफलतापूर्वक पूरा हुआ',
-    ar: 'تم الدفع بنجاح',
+// frontend/src/i18n/translations/payment.ts
+export const payment = {
+  title: {
+    fa: 'پرداخت',
+    en: 'Payment',
+    tr: 'Ödeme',
+    zh: '支付',
+    ar: 'الدفع',
   },
-
-  purchaseError: {
-    fa: 'خطا در تراکنش. دوباره تلاش کنید.',
-    en: 'Transaction error. Please try again.',
-    tr: 'İşlem hatası. Lütfen tekrar deneyin.',
-    zh: '交易错误。请重试。',
-    hi: 'लेनदेन त्रुटि। कृपया पुनः प्रयास करें।',
-    ar: 'خطأ في المعاملة. يرجى المحاولة مرة أخرى.',
+  amountLabel: {
+    fa: 'مبلغ',
+    en: 'Amount',
+    tr: 'Tutar',
+    zh: '金额',
+    ar: 'المبلغ',
   },
-
-  paymentSuccessful: {
-    fa: 'پرداخت موفقیت‌آمیز بود!',
-    en: 'Payment was successful!',
-    tr: 'Ödeme başarılı!',
-    zh: '支付成功！',
-    hi: 'भुगतान सफल रहा!',
-    ar: 'تم الدفع بنجاح!',
+  idLabel: {
+    fa: 'شناسه',
+    en: 'ID',
+    tr: 'Kimlik',
+    zh: 'ID',
+    ar: 'المعرّف',
   },
-
-  transactionRegistered: {
-    fa: 'تراکنش شما با موفقیت ثبت شد.',
-    en: 'Your transaction was successfully registered.',
-    tr: 'İşleminiz başarıyla kaydedildi.',
-    zh: '您的交易已成功记录。',
-    hi: 'आपका लेनदेन सफलतापूर्वक दर्ज हो गया।',
-    ar: 'تم تسجيل معاملتك بنجاح.',
+  productLabel: {
+    fa: 'محصول',
+    en: 'Product',
+    tr: 'Ürün',
+    zh: '产品',
+    ar: 'المنتج',
   },
-
-  transactionId: {
-    fa: 'ID تراکنش',
-    en: 'Transaction ID',
-    tr: 'İşlem ID',
-    zh: '交易 ID',
-    hi: 'लेनदेन ID',
-    ar: 'معرّف المعاملة',
+  productName: {
+    fa: 'پرداخت Night',
+    en: 'Night payment',
+    tr: 'Night ödemesi',
+    zh: 'Night 支付',
+    ar: 'دفعة Night',
   },
-
-  transactionIdentifier: {
-    fa: 'شناسه تراکنش',
-    en: 'Transaction ID',
-    tr: 'İşlem Kimliği',
-    zh: '交易标识',
-    hi: 'लेनदेन पहचान',
-    ar: 'معرّف المعاملة',
+  payButton: {
+    fa: 'پرداخت با Pi',
+    en: 'Pay with Pi',
+    tr: 'Pi ile öde',
+    zh: '使用 Pi 支付',
+    ar: 'ادفع بـ Pi',
   },
-
-  amount: { fa: 'مبلغ', en: 'Amount', tr: 'Tutar', zh: '金额', hi: 'राशि', ar: 'المبلغ' },
-
-  product: {
-    fa: 'محصول/سرویس',
-    en: 'Product/Service',
-    tr: 'Ürün/Hizmet',
-    zh: '产品/服务',
-    hi: 'उत्पाद/सेवा',
-    ar: 'المنتج/الخدمة',
+  processing: {
+    fa: 'در حال پردازش...',
+    en: 'Processing...',
+    tr: 'İşleniyor...',
+    zh: '处理中...',
+    ar: 'جارٍ المعالجة...',
   },
-
-  status: { fa: 'وضعیت', en: 'Status', tr: 'Durum', zh: '状态', hi: 'स्थिति', ar: 'الحالة' },
-  date: { fa: 'تاریخ', en: 'Date', tr: 'Tarih', zh: '日期', hi: 'तारीख', ar: 'التاريخ' },
-
-  successful: { fa: 'موفق', en: 'Successful', tr: 'Başarılı', zh: '成功', hi: 'सफल', ar: 'ناجح' },
-  failed: { fa: 'ناموفق', en: 'Failed', tr: 'Başarısız', zh: '失败', hi: 'विफल', ar: 'فشل' },
-  pending: { fa: 'در انتظار', en: 'Pending', tr: 'Beklemede', zh: '待处理', hi: 'लंबित', ar: 'قيد الانتظار' },
-  approved: { fa: 'تأیید شده', en: 'Approved', tr: 'Onaylandı', zh: '已批准', hi: 'स्वीकृत', ar: 'تمت الموافقة' },
-  cancelled: { fa: 'لغو شده', en: 'Cancelled', tr: 'İptal edildi', zh: '已取消', hi: 'रद्द', ar: 'ملغى' },
-
-  historyTitle: {
-    fa: '📜 تاریخچه تراکنش‌های Night',
-    en: '📜 Night Transaction History',
-    tr: '📜 Night İşlem Geçmişi',
-    zh: '📜 Night 交易历史',
-    hi: '📜 Night लेनदेन इतिहास',
-    ar: '📜 سجل معاملات Night',
+  cancelReset: {
+    fa: 'لغو / بازنشانی',
+    en: 'Cancel / Reset',
+    tr: 'İptal / Sıfırla',
+    zh: '取消 / 重置',
+    ar: 'إلغاء / إعادة تعيين',
   },
-
-  noTransactions: {
-    fa: 'هنوز هیچ تراکنشی ثبت نشده است.',
-    en: 'No transactions have been recorded yet.',
-    tr: 'Henüz hiç işlem kaydedilmedi.',
-    zh: '尚未记录任何交易。',
-    hi: 'अभी तक कोई लेनदेन दर्ज नहीं हुआ है।',
-    ar: 'لم يتم تسجيل أي معاملات بعد.',
+  doNotCloseBrowser: {
+    fa: 'لطفاً مرورگر را نبندید.',
+    en: 'Please do not close the browser.',
+    tr: 'Lütfen tarayıcıyı kapatmayın.',
+    zh: '请勿关闭浏览器。',
+    ar: 'يرجى عدم إغلاق المتصفح.',
   },
-
-  backToHome: {
-    fa: 'بازگشت به صفحه اصلی',
-    en: 'Back to Home',
-    tr: 'Ana Sayfaya Dön',
-    zh: '返回首页',
-    hi: 'होम पर वापस जाएँ',
-    ar: 'العودة إلى الرئيسية',
+  piSdkNotAvailable: {
+    fa: 'Pi SDK در دسترس نیست.',
+    en: 'Pi SDK is not available.',
+    tr: 'Pi SDK kullanılamıyor.',
+    zh: 'Pi SDK 不可用。',
+    ar: 'Pi SDK غير متاح.',
+  },
+  serverApprovalFailed: {
+    fa: 'تأیید سرور ناموفق بود.',
+    en: 'Server approval failed.',
+    tr: 'Sunucu onayı başarısız.',
+    zh: '服务器批准失败。',
+    ar: 'فشل موافقة الخادم.',
+  },
+  startFailed: {
+    fa: 'شروع پرداخت ناموفق بود.',
+    en: 'Failed to start payment.',
+    tr: 'Ödeme başlatılamadı.',
+    zh: '无法开始支付。',
+    ar: 'فشل بدء الدفع.',
+  },
+  finalizeFailed: {
+    fa: 'تکمیل پرداخت ناموفق بود.',
+    en: 'Failed to finalize payment.',
+    tr: 'Ödeme tamamlanamadı.',
+    zh: '无法完成支付。',
+    ar: 'فشل إتمام الدفع.',
+  },
+  success: {
+    title: {
+      fa: 'پرداخت موفق',
+      en: 'Payment successful',
+      tr: 'Ödeme başarılı',
+      zh: '支付成功',
+      ar: 'تم الدفع بنجاح',
+    },
+    description: {
+      fa: 'تراکنش شما ثبت شد.',
+      en: 'Your transaction has been recorded.',
+      tr: 'İşleminiz kaydedildi.',
+      zh: '您的交易已记录。',
+      ar: 'تم تسجيل معاملتك.',
+    },
+    processing: {
+      fa: 'در حال تأیید نهایی...',
+      en: 'Finalizing...',
+      tr: 'Sonlandırılıyor...',
+      zh: '正在完成...',
+      ar: 'جارٍ الإنهاء...',
+    },
+    txIdLabel: {
+      fa: 'شناسه تراکنش',
+      en: 'Transaction ID',
+      tr: 'İşlem kimliği',
+      zh: '交易 ID',
+      ar: 'معرّف المعاملة',
+    },
   },
 };
-

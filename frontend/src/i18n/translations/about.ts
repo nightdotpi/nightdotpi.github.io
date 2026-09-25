@@ -1,83 +1,115 @@
-export const about: Translations = {
-  aboutDigKicker: {
+// frontend/src/i18n/translations/about.ts
+export const about = {
+  aboutNightKicker: {
     fa: 'Night Ecosystem',
     en: 'Night Ecosystem',
     tr: 'Night Ekosistemi',
     zh: 'Night 生态系统',
-    hi: 'Night इकोसिस्टम',
     ar: 'منظومة Night',
   },
-
-  aboutDigSubtitle: {
+  aboutNightSubtitle: {
     fa: 'درباره چشم‌انداز ما',
     en: 'About Our Vision',
     tr: 'Vizyonumuz Hakkında',
     zh: '关于我们的愿景',
-    hi: 'हमारे दृष्टिकोण के बारे में',
     ar: 'حول رؤيتنا',
   },
-
-  aboutDigTitleBefore: {
+  aboutNightTitleBefore: {
     fa: 'از یک توکن تا',
     en: 'From a token to a',
     tr: 'Bir tokenden',
     zh: '从一个代币走向',
-    hi: 'एक टोकन से',
     ar: 'من رمز إلى',
   },
-
-  aboutDigTitleHighlight: {
+  aboutNightTitleHighlight: {
     fa: 'اکوسیستم جهانی',
     en: 'Global Ecosystem',
     tr: 'Küresel Ekosistem',
     zh: '全球生态系统',
-    hi: 'वैश्विक इकोसिस्टम',
     ar: 'منظومة عالمية',
   },
-
-  aboutDigText: {
+  aboutNightText: {
     fa: 'Night یک اکوسیستم چندفازی است: فاز اول Night Protocol (NTP) برای پرداخت‌ها و کارمزدها، سپس NightGrid برای شبکه اجتماعی غیرمتمرکز و در ادامه NightCap برای تحلیل بازار و آنلاک/مینت.',
     en: 'Night is a multi-phase ecosystem: Phase 1 introduces Night Protocol (NTP) for payments and fees, then NightGrid as a decentralized social network, and later NightCap for market analytics and unlock/mint tracking.',
     tr: 'Night çok aşamalı bir ekosistemdir: 1. fazda ödemeler ve ücretler için Night Protocol (NTP), ardından merkeziyetsiz sosyal ağ NightGrid ve sonrasında piyasa analitiği ile unlock/mint takibi için NightCap.',
     zh: 'Night 是一个多阶段生态系统：第一阶段推出用于支付与手续费的 Night Protocol（NTP），随后是去中心化社交网络 NightGrid，之后是用于市场分析与解锁/增发追踪的 NightCap。',
-    hi: 'Night एक बहु-चरणीय इकोसिस्टम है: चरण 1 में भुगतान व शुल्क के लिए Night Protocol (NTP), फिर विकेंद्रीकृत सोशल नेटवर्क NightGrid, और आगे चलकर मार्केट एनालिटिक्स व unlock/mint ट्रैकिंग के लिए NightCap।',
     ar: 'Night منظومة متعددة المراحل: المرحلة الأولى Night Protocol (NTP) للمدفوعات والرسوم، ثم NightGrid كشبكة اجتماعية لامركزية، وبعدها NightCap لتحليلات السوق وتتبع فتح/سك العملات.',
   },
-
-  aboutDigTextSecondary: {
+  aboutNightTextSecondary: {
     fa: 'هدف فعلی: ساخت MVPهای واقعی، سنجش مشارکت کاربران، و توسعه مرحله‌ای ابزارهایی که استفاده‌پذیر و قابل رشد باشند.',
     en: 'Current goal: build real MVPs, measure user participation, and develop practical tools step-by-step.',
     tr: 'Mevcut hedef: gerçek MVP’ler geliştirmek, kullanıcı katılımını ölçmek ve kullanılabilir, ölçeklenebilir araçları kademeli olarak büyütmek.',
     zh: '当前目标：构建真实 MVP、衡量用户参与度，并逐步发展可用且可扩展的工具。',
-    hi: 'वर्तमान लक्ष्य: वास्तविक MVP बनाना, उपयोगकर्ता भागीदारी मापना, और उपयोगी व स्केलेबल टूल्स को चरणबद्ध रूप से विकसित करना।',
-    ar: 'الهدف الحالي: بناء نماذج MVP حقيقية، قياس مشاركة المستخدمين، وتطوير أدوات عملية بشكل تدريجي قابلة للتوسع.',
+    ar: 'الهدف الحالي: بناء MVP حقيقية، وقياس مشاركة المستخدمين، وتطوير أدوات عملية خطوة بخطوة.',
   },
-
   statGlobalGovernance: {
-    fa: 'اکوسیستم جهانی',
-    en: 'Global Ecosystem',
-    tr: 'Küresel Ekosistem',
-    zh: '全球生态系统',
-    hi: 'वैश्विक इकोसिस्टम',
-    ar: 'منظومة عالمية',
+    fa: 'حاکمیت جهانی',
+    en: 'Global Governance',
+    tr: 'Küresel Yönetişim',
+    zh: '全球治理',
+    ar: 'حوكمة عالمية',
   },
-
   statPiIdentity: {
-    fa: 'ورود با Pi',
-    en: 'Pi Login',
-    tr: 'Pi Girişi',
-    zh: 'Pi 登录',
-    hi: 'Pi लॉगिन',
-    ar: 'تسجيل الدخول عبر Pi',
+    fa: 'هویت Pi',
+    en: 'Pi Identity',
+    tr: 'Pi Kimliği',
+    zh: 'Pi 身份',
+    ar: 'هوية Pi',
   },
-
   statPeopleVoting: {
-    fa: 'مشارکت جامعه',
-    en: 'Community Participation',
-    tr: 'Topluluk Katılımı',
-    zh: '社区参与',
-    hi: 'समुदाय भागीदारी',
-    ar: 'مشاركة المجتمع',
+    fa: 'رأی مردم',
+    en: 'People Voting',
+    tr: 'Halk Oylaması',
+    zh: '全民投票',
+    ar: 'تصويت الناس',
+  },
+  nightShortName: {
+    fa: 'Night',
+    en: 'Night',
+    tr: 'Night',
+    zh: 'Night',
+    ar: 'Night',
+  },
+  nightMissionTitle: {
+    fa: 'ماموریت ما',
+    en: 'Our Mission',
+    tr: 'Misyonumuz',
+    zh: '我们的使命',
+    ar: 'مهمتنا',
+  },
+  nightMissionText: {
+    fa: 'ساخت پلی بین کاربران و شبکه Pi برای پرداخت ساده، ذخیره دائمی متن، و ابزارهای هوشمند بازار.',
+    en: 'Build a bridge between users and Pi Network for simple payments, permanent text storage, and smart market tools.',
+    tr: 'Kullanıcılar ile Pi Network arasında basit ödemeler, kalıcı metin depolama ve akıllı piyasa araçları için bir köprü kurmak.',
+    zh: '在用户与 Pi 网络之间搭建桥梁，实现简单支付、永久文本存储和智能市场工具。',
+    ar: 'بناء جسر بين المستخدمين وشبكة Pi للمدفوعات البسيطة والتخزين الدائم للنصوص وأدوات السوق الذكية.',
+  },
+  nightPointVoting: {
+    fa: 'رأی‌گیری شفاف و ثبت‌شده',
+    en: 'Transparent, recorded voting',
+    tr: 'Şeffaf ve kayıtlı oylama',
+    zh: '透明且可记录的投票',
+    ar: 'تصويت شفاف ومسجل',
+  },
+  nightPointTransparency: {
+    fa: 'شفافیت در عرضه و جریان توکن',
+    en: 'Transparency in supply and token flows',
+    tr: 'Arz ve token akışlarında şeffaflık',
+    zh: '供应与代币流动的透明性',
+    ar: 'شفافية في العرض وتدفقات الرموز',
+  },
+  nightPointUnity: {
+    fa: 'اتحاد جامعه حول یک اکوسیستم',
+    en: 'Community unity around one ecosystem',
+    tr: 'Tek ekosistem etrafında topluluk birliği',
+    zh: '围绕同一生态系统的社区团结',
+    ar: 'وحدة المجتمع حول منظومة واحدة',
+  },
+  nightVisionBadge: {
+    fa: 'چشم‌انداز Night',
+    en: 'Night Vision',
+    tr: 'Night Vizyonu',
+    zh: 'Night 愿景',
+    ar: 'رؤية Night',
   },
 };
-    

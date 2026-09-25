@@ -1,19 +1,264 @@
-export const dig: Translations = {
-  digTitle: {
-    fa: 'Night Protocol (NTP)',
-    en: 'Night Protocol (NTP)',
-    tr: 'Night Protocol (NTP)',
-    zh: 'Night Protocol (NTP)',
-    hi: 'Night Protocol (NTP)',
-    ar: 'Night Protocol (NTP)',
+// frontend/src/i18n/translations/dig.ts
+export const dig = {
+  pageTitle: {
+    fa: 'مانیفست Night',
+    en: 'Night Manifesto',
+    tr: 'Night Manifestosu',
+    zh: 'Night 宣言',
+    ar: 'بيان Night',
   },
-
-  digLead: {
-    fa: 'NTP توکن کاربردی اکوسیستم Night برای کارمزد سرویس‌ها، ثبت dApp و ساخت Poll است (و مسیرهای پیشرفته‌تر در آینده).',
-    en: 'NTP is the utility token of the Night ecosystem for service fees, dApp registration, and poll creation (with more advanced flows later).',
-    tr: 'NTP, Night ekosisteminin servis ücretleri, dApp kaydı ve anket oluşturma için kullanılan yardımcı tokenidir (ileride daha gelişmiş akışlarla).',
-    zh: 'NTP 是 Night 生态系统的实用代币，用于服务手续费、dApp 注册和投票创建（未来将扩展更多功能）。',
-    hi: 'NTP, Night इकोसिस्टम का यूटिलिटी टोकन है—सेवा शुल्क, dApp रजिस्ट्रेशन और पोल निर्माण के लिए (आगे और उन्नत फ्लो)।',
-    ar: 'NTP هو رمز المنفعة في منظومة Night لرسوم الخدمات وتسجيل التطبيقات وإنشاء الاستطلاعات (مع مسارات أكثر تقدماً لاحقاً).',
+  pageLead: {
+    fa: 'چشم‌انداز، نقش Pi و مسیر توسعه اکوسیستم.',
+    en: 'Vision, the role of Pi, and the ecosystem roadmap.',
+    tr: 'Vizyon, Pi’nin rolü ve ekosistem yol haritası.',
+    zh: '愿景、Pi 的角色与生态路线图。',
+    ar: 'الرؤية ودور Pi وخارطة طريق المنظومة.',
+  },
+  shortName: {
+    fa: 'Night',
+    en: 'Night',
+    tr: 'Night',
+    zh: 'Night',
+    ar: 'Night',
+  },
+  fullName: {
+    fa: 'Night Ecosystem',
+    en: 'Night Ecosystem',
+    tr: 'Night Ekosistemi',
+    zh: 'Night 生态系统',
+    ar: 'منظومة Night',
+  },
+  navRoadmap: {
+    fa: 'مسیر راه',
+    en: 'Roadmap',
+    tr: 'Yol Haritası',
+    zh: '路线图',
+    ar: 'خارطة الطريق',
+  },
+  what: {
+    title: {
+      fa: 'Night چیست؟',
+      en: 'What is Night?',
+      tr: 'Night nedir?',
+      zh: '什么是 Night？',
+      ar: 'ما هو Night؟',
+    },
+    text: {
+      fa: 'اکوسیستمی برای پرداخت، اجتماع دائمی، تحلیل بازار و عامل‌های هوشمند روی شبکه Pi.',
+      en: 'An ecosystem for payments, permanent social layer, market analytics, and smart agents on Pi Network.',
+      tr: 'Pi Network üzerinde ödemeler, kalıcı sosyal katman, piyasa analitiği ve akıllı ajanlar için bir ekosistem.',
+      zh: '基于 Pi 网络的支付、永久社交层、市场分析与智能代理生态。',
+      ar: 'منظومة للمدفوعات والطبقة الاجتماعية الدائمة وتحليلات السوق والوكلاء الأذكياء على شبكة Pi.',
+    },
+  },
+  piRole: {
+    title: {
+      fa: 'نقش Pi',
+      en: 'Role of Pi',
+      tr: 'Pi’nin rolü',
+      zh: 'Pi 的角色',
+      ar: 'دور Pi',
+    },
+    text: {
+      fa: 'هویت و پرداخت از طریق Pi SDK؛ در مراحل اولیه ممکن است Pi دارایی پرداخت باشد.',
+      en: 'Identity and payments via Pi SDK; early stages may use Pi as the payment asset.',
+      tr: 'Kimlik ve ödemeler Pi SDK ile; erken aşamalarda ödeme varlığı olarak Pi kullanılabilir.',
+      zh: '通过 Pi SDK 完成身份与支付；早期阶段可能以 Pi 作为支付资产。',
+      ar: 'الهوية والمدفوعات عبر Pi SDK؛ قد يُستخدم Pi كأصل دفع في المراحل المبكرة.',
+    },
+  },
+  voting: {
+    title: {
+      fa: 'رأی‌گیری',
+      en: 'Voting',
+      tr: 'Oylama',
+      zh: '投票',
+      ar: 'التصويت',
+    },
+    text: {
+      fa: 'نظرسنجی‌ها با هویت Pi و شفافیت برای جامعه.',
+      en: 'Polls with Pi identity and transparency for the community.',
+      tr: 'Pi kimliği ve topluluk şeffaflığı ile anketler.',
+      zh: '基于 Pi 身份的社区透明投票。',
+      ar: 'استطلاعات بهوية Pi وشفافية للمجتمع.',
+    },
+  },
+  transparency: {
+    title: {
+      fa: 'شفافیت',
+      en: 'Transparency',
+      tr: 'Şeffaflık',
+      zh: '透明',
+      ar: 'الشفافية',
+    },
+    text: {
+      fa: 'پیگیری عرضه، آنلاک و جریان صرافی‌ها در NightCap.',
+      en: 'Track supply, unlocks, and exchange flows in NightCap.',
+      tr: 'NightCap’te arz, unlock ve borsa akışlarını takip edin.',
+      zh: '在 NightCap 中跟踪供应、解锁与交易所流动。',
+      ar: 'تتبع العرض وفتح الرموز وتدفقات البورصات في NightCap.',
+    },
+  },
+  conflict: {
+    title: {
+      fa: 'حل اختلاف',
+      en: 'Conflict resolution',
+      tr: 'Uyuşmazlık çözümü',
+      zh: '争议解决',
+      ar: 'حل النزاعات',
+    },
+    text: {
+      fa: 'ثبت ایده و اثبات زمان برای کاهش اختلاف‌های آینده.',
+      en: 'Idea registration and proof of time to reduce future disputes.',
+      tr: 'Gelecekteki anlaşmazlıkları azaltmak için fikir kaydı ve zaman kanıtı.',
+      zh: '创意登记与时间证明，减少未来纠纷。',
+      ar: 'تسجيل الأفكار وإثبات الوقت لتقليل النزاعات المستقبلية.',
+    },
+  },
+  dib: {
+    title: {
+      fa: 'ذخیره دائمی',
+      en: 'Permanent storage',
+      tr: 'Kalıcı depolama',
+      zh: '永久存储',
+      ar: 'تخزين دائم',
+    },
+    text: {
+      fa: 'متن‌های مهم پس از پرداخت روی Arweave ذخیره می‌شوند.',
+      en: 'Important texts are stored on Arweave after payment.',
+      tr: 'Önemli metinler ödeme sonrası Arweave’de saklanır.',
+      zh: '重要文本在支付后存储于 Arweave。',
+      ar: 'تُخزَّن النصوص المهمة على Arweave بعد الدفع.',
+    },
+  },
+  disclaimer: {
+    title: {
+      fa: 'سلب مسئولیت',
+      en: 'Disclaimer',
+      tr: 'Sorumluluk reddi',
+      zh: '免责声明',
+      ar: 'إخلاء المسؤولية',
+    },
+    text: {
+      fa: 'Night در حال تکامل است و به قابلیت‌های شخص ثالث (از جمله Pi) وابسته است.',
+      en: 'Night is evolving and depends on third-party capabilities including Pi.',
+      tr: 'Night gelişmeye devam ediyor ve Pi dahil üçüncü taraf yeteneklerine bağlıdır.',
+      zh: 'Night 仍在演进，并依赖包括 Pi 在内的第三方能力。',
+      ar: 'Night قيد التطور ويعتمد على قدرات أطراف ثالثة بما في ذلك Pi.',
+    },
+  },
+  manifestoRoadmap: {
+    title: {
+      fa: 'مسیر راه مانیفست',
+      en: 'Manifesto roadmap',
+      tr: 'Manifesto yol haritası',
+      zh: '宣言路线图',
+      ar: 'خارطة طريق البيان',
+    },
+    intro: {
+      fa: 'مراحل از NTP تا NightAgent.',
+      en: 'Phases from NTP to NightAgent.',
+      tr: 'NTP’den NightAgent’a aşamalar.',
+      zh: '从 NTP 到 NightAgent 的阶段。',
+      ar: 'مراحل من NTP إلى NightAgent.',
+    },
+  },
+  roadmap: {
+    step1: {
+      title: {
+        fa: 'فاز ۱ — NTP',
+        en: 'Phase 1 — NTP',
+        tr: 'Faz 1 — NTP',
+        zh: '阶段 1 — NTP',
+        ar: 'المرحلة 1 — NTP',
+      },
+      description: {
+        fa: 'توکن کاربردی و یکپارچه‌سازی کارمزد.',
+        en: 'Utility token and fee integrations.',
+        tr: 'Yardımcı token ve ücret entegrasyonları.',
+        zh: '实用代币与手续费集成。',
+        ar: 'رمز للمنفعة وتكامل الرسوم.',
+      },
+    },
+    step2: {
+      title: {
+        fa: 'فاز ۲ — NightGrid',
+        en: 'Phase 2 — NightGrid',
+        tr: 'Faz 2 — NightGrid',
+        zh: '阶段 2 — NightGrid',
+        ar: 'المرحلة 2 — NightGrid',
+      },
+      description: {
+        fa: 'MVP اجتماعی و ذخیره دائمی.',
+        en: 'Social MVP and permanent storage.',
+        tr: 'Sosyal MVP ve kalıcı depolama.',
+        zh: '社交 MVP 与永久存储。',
+        ar: 'MVP اجتماعي وتخزين دائم.',
+      },
+    },
+    step3: {
+      title: {
+        fa: 'فاز ۳ — NightCap',
+        en: 'Phase 3 — NightCap',
+        tr: 'Faz 3 — NightCap',
+        zh: '阶段 3 — NightCap',
+        ar: 'المرحلة 3 — NightCap',
+      },
+      description: {
+        fa: 'تحلیل عرضه و جریان بازار.',
+        en: 'Supply and market flow analytics.',
+        tr: 'Arz ve piyasa akış analitiği.',
+        zh: '供应与市场流动分析。',
+        ar: 'تحليلات العرض وتدفقات السوق.',
+      },
+    },
+    step4: {
+      title: {
+        fa: 'فاز ۴ — NightAgent',
+        en: 'Phase 4 — NightAgent',
+        tr: 'Faz 4 — NightAgent',
+        zh: '阶段 4 — NightAgent',
+        ar: 'المرحلة 4 — NightAgent',
+      },
+      description: {
+        fa: 'عامل‌های آفلاین و NFC.',
+        en: 'Offline agents and NFC.',
+        tr: 'Çevrimdışı ajanlar ve NFC.',
+        zh: '离线代理与 NFC。',
+        ar: 'وكلاء دون اتصال و NFC.',
+      },
+    },
+    step5: {
+      title: {
+        fa: 'جامعه و حاکمیت',
+        en: 'Community & governance',
+        tr: 'Topluluk ve yönetişim',
+        zh: '社区与治理',
+        ar: 'المجتمع والحوكمة',
+      },
+      description: {
+        fa: 'نظرسنجی و پاداش مشارکت.',
+        en: 'Polls and participation rewards.',
+        tr: 'Anketler ve katılım ödülleri.',
+        zh: '投票与参与奖励。',
+        ar: 'استطلاعات ومكافآت المشاركة.',
+      },
+    },
+    step6: {
+      title: {
+        fa: 'یکپارچه‌سازی',
+        en: 'Integrations',
+        tr: 'Entegrasyonlar',
+        zh: '集成',
+        ar: 'التكاملات',
+      },
+      description: {
+        fa: 'صرافی‌ها و سرویس‌های Pi.',
+        en: 'Exchanges and Pi services.',
+        tr: 'Borsalar ve Pi servisleri.',
+        zh: '交易所与 Pi 服务。',
+        ar: 'البورصات وخدمات Pi.',
+      },
+    },
   },
 };

@@ -1,46 +1,45 @@
-export const hero: Translations = {
-  digShortName: {
+// frontend/src/i18n/translations/hero.ts
+export const hero = {
+  nightShortName: {
     fa: 'Night',
     en: 'Night',
     tr: 'Night',
     zh: 'Night',
-    hi: 'Night',
     ar: 'Night',
   },
-
-  digFullName: {
-    fa: 'اکوسیستم نایت: NTP + NightGrid + NightCap',
-    en: 'Night Ecosystem: NTP + NightGrid + NightCap',
-    tr: 'Night Ekosistemi: NTP + NightGrid + NightCap',
-    zh: 'Night 生态系统：NTP + NightGrid + NightCap',
-    hi: 'Night इकोसिस्टम: NTP + NightGrid + NightCap',
-    ar: 'منظومة Night: NTP + NightGrid + NightCap',
+  nightFullName: {
+    fa: 'Night Ecosystem',
+    en: 'Night Ecosystem',
+    tr: 'Night Ekosistemi',
+    zh: 'Night 生态系统',
+    ar: 'منظومة Night',
   },
-
-  digHeroTitle: {
-    fa: 'یک اکوسیستم جهانی برای پرداخت، داده و اجتماع غیرمتمرکز',
-    en: 'A Global Ecosystem for Payments, Data, and Decentralized Social',
-    tr: 'Ödemeler, Veri ve Merkeziyetsiz Sosyal için Küresel Ekosistem',
-    zh: '面向支付、数据与去中心化社交的全球生态系统',
-    hi: 'भुगतान, डेटा और विकेंद्रीकृत सोशल के लिए वैश्विक इकोसिस्टम',
-    ar: 'منظومة عالمية للمدفوعات والبيانات والتواصل اللامركزي',
+  nightHeroTitle: {
+    fa: 'پل بین کاربران و شبکه Pi',
+    en: 'A bridge between users and Pi Network',
+    tr: 'Kullanıcılar ile Pi Network arasında bir köprü',
+    zh: '连接用户与 Pi 网络的桥梁',
+    ar: 'جسر بين المستخدمين وشبكة Pi',
   },
-
-  digHeroDescription: {
-    fa: 'Night با توکن NTP، شبکه اجتماعی NightGrid و ابزار تحلیلی NightCap، مسیر فازبه‌فاز برای کاربران، سازندگان و سازمان‌ها می‌سازد.',
-    en: 'Night combines the NTP token, the NightGrid decentralized social network, and NightCap analytics—built in phases for users, builders, and organizations.',
-    tr: 'Night; NTP tokeni, NightGrid merkeziyetsiz sosyal ağı ve NightCap analitiğini birleştirerek kullanıcılar, geliştiriciler ve kurumlar için aşamalı bir yol sunar.',
-    zh: 'Night 结合 NTP 代币、NightGrid 去中心化社交网络与 NightCap 分析工具，为用户、开发者与组织提供分阶段路径。',
-    hi: 'Night, NTP टोकन, NightGrid विकेंद्रीकृत सोशल नेटवर्क और NightCap एनालिटिक्स को मिलाकर उपयोगकर्ताओं, निर्माताओं और संगठनों के लिए चरणबद्ध रास्ता बनाता है।',
-    ar: 'يجمع Night بين رمز NTP وشبكة NightGrid الاجتماعية اللامركزية ومنصة NightCap التحليلية ضمن مسار تطوير مرحلي للمستخدمين والمطورين والمؤسسات.',
+  nightHeroDescription: {
+    fa: 'توکن کاربردی NTP، شبکه اجتماعی دائمی، تحلیل بازار و عامل‌های هوشمند پرداخت — مرحله به مرحله.',
+    en: 'NTP utility token, permanent social layer, market analytics, and smart payment agents — step by step.',
+    tr: 'NTP yardımcı token, kalıcı sosyal katman, piyasa analitiği ve akıllı ödeme ajanları — adım adım.',
+    zh: 'NTP 实用代币、永久社交层、市场分析与智能支付代理 —— 循序渐进。',
+    ar: 'رمز NTP للمنفعة، طبقة اجتماعية دائمة، تحليلات السوق ووكلاء دفع ذكيون — خطوة بخطوة.',
   },
-
-  exploreDig: {
-    fa: 'کشف Night',
+  exploreNight: {
+    fa: 'کاوش Night',
     en: 'Explore Night',
     tr: 'Night’i Keşfet',
     zh: '探索 Night',
-    hi: 'Night को जानें',
     ar: 'استكشف Night',
+  },
+  joinWithPi: {
+    fa: 'ورود با Pi',
+    en: 'Join with Pi',
+    tr: 'Pi ile Katıl',
+    zh: '使用 Pi 加入',
+    ar: 'انضم باستخدام Pi',
   },
 };
