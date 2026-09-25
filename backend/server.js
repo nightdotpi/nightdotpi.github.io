@@ -290,6 +290,7 @@ app.use(requirePiBrowserForGithubDomain);
 
 const authRoutes = require('./routes/auth');
 const paymentRoutes = require('./routes/payment');
+const productRoutes = require('./routes/products');
 
 app.use('/api/auth', authRoutes);
 
@@ -301,6 +302,9 @@ app.use('/api/pi', paymentRoutes);
 
 // Alias برای حالت /api/payments
 app.use('/api/payments', paymentRoutes);
+
+// Products
+app.use('/api/products', productRoutes);
 
 // Admin routes اگر وجود داشته باشد
 try {
@@ -387,6 +391,19 @@ app.get('/api/db-health', dbHealthHandler);
 // -------------------------
 
 const envCheckHandler = (req, res) => {
+  // Protect env-check: require admin key in production
+  if (process.env.NODE_ENV === 'production') {
+    const adminKey = req.headers['x-admin-key'];
+    if (!process.env.ADMIN_SECRET_KEY || adminKey !== process.env.ADMIN_SECRET_KEY) {
+      return res.status(403).json({
+        success: false,
+        message: 'Forbidden',
+        version: APP_VERSION,
+        time: new Date().toISOString(),
+      });
+    }
+  }
+
   return res.status(200).json({
     success: true,
     NODE_ENV: process.env.NODE_ENV,
@@ -482,6 +499,8 @@ const server = app.listen(PORT, () => {
   console.log('   - POST /api/pi/complete');
   console.log('   - POST /api/payment/approve');
   console.log('   - POST /api/payment/complete');
+  console.log('   - GET  /api/products');
+  console.log('   - POST /api/products (admin)');
   console.log('==========================================');
 });
 
