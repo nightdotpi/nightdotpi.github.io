@@ -1,5 +1,12 @@
 // frontend/src/i18n/I18nContext.tsx
-import React, { createContext, useContext, useMemo, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import { translations } from './translations';
 
 export type Language = 'en' | 'fa' | 'ar' | 'tr' | 'zh';
@@ -27,8 +34,29 @@ const LANGUAGE_LABELS: Record<Language, string> = {
   zh: '中文',
 };
 
+const STORAGE_KEY = 'picex_lang';
+
+function isValidLanguage(value: string | null): value is Language {
+  return (
+    value !== null &&
+    (SUPPORTED_LANGUAGES as string[]).includes(value)
+  );
+}
+
+function getInitialLanguage(): Language {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (isValidLanguage(saved)) {
+      return saved;
+    }
+  } catch {
+    // localStorage may be unavailable
+  }
+  return 'en';
+}
+
 export const I18nProvider = ({ children }: { children: ReactNode }) => {
-  const [lang, setLangState] = useState<Language>('en');
+  const [lang, setLangState] = useState<Language>(getInitialLanguage);
 
   /**
    * کلیدها به‌صورت namespaced و نقطه‌دار هستند، مثل 'hero.nightHeroTitle'.
@@ -64,21 +92,37 @@ export const I18nProvider = ({ children }: { children: ReactNode }) => {
   const isRtl = direction === 'rtl';
 
   const setLang = (nextLang: Language) => {
+    if (!isValidLanguage(nextLang)) return;
     setLangState(nextLang);
-    localStorage.setItem('picex_lang', nextLang);
+    try {
+      localStorage.setItem(STORAGE_KEY, nextLang);
+    } catch {
+      // ignore
+    }
   };
 
-  const value = useMemo(() => ({
-    lang,
-    direction,
-    isRtl,
-    setLang,
-    t,
-    supportedLanguages: SUPPORTED_LANGUAGES,
-    languageLabels: LANGUAGE_LABELS,
-  }), [lang, direction, isRtl]);
+  // همگام‌سازی dir و lang روی <html> برای RTL و دسترس‌پذیری
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = direction;
+  }, [lang, direction]);
 
-  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
+  const value = useMemo(
+    () => ({
+      lang,
+      direction,
+      isRtl,
+      setLang,
+      t,
+      supportedLanguages: SUPPORTED_LANGUAGES,
+      languageLabels: LANGUAGE_LABELS,
+    }),
+    [lang, direction, isRtl]
+  );
+
+  return (
+    <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
+  );
 };
 
 export const useI18n = () => {
