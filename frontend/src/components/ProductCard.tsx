@@ -87,11 +87,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <>
               <span className="spinner"></span>
               <span style={{ marginInlineStart: '8px' }}>
-                {t('processing')}
+                {t('productCard.processing')}
               </span>
             </>
           ) : (
-            t('buyNow')
+            t('productCard.buyNow')
           )}
         </button>
       </div>
