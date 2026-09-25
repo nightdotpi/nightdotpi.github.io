@@ -11,17 +11,17 @@ interface Task {
 const tasks: Task[] = [
   {
     id: 1,
-    titleKey: 'taskWatchVideo',
+    titleKey: 'tasks.taskWatchVideo',
     reward: '0.01 Pi',
   },
   {
     id: 2,
-    titleKey: 'taskJoinPoll',
+    titleKey: 'tasks.taskJoinPoll',
     reward: '0.05 Pi',
   },
   {
     id: 3,
-    titleKey: 'taskDailyCheckin',
+    titleKey: 'tasks.taskDailyCheckin',
     reward: '0.005 Pi',
   },
 ];
@@ -37,9 +37,9 @@ const EngagementTasksPage: React.FC = () => {
         fontFamily: 'sans-serif',
       }}
     >
-      <h2>{t('tasksTitle')}</h2>
+      <h2>{t('tasks.tasksTitle')}</h2>
 
-      <p>{t('tasksSubtitle')}</p>
+      <p>{t('tasks.tasksSubtitle')}</p>
 
       <div style={{ marginTop: '20px' }}>
         {tasks.map((task) => (
@@ -48,12 +48,12 @@ const EngagementTasksPage: React.FC = () => {
               <strong>{t(task.titleKey)}</strong>
 
               <div style={{ fontSize: '0.8rem', color: '#666' }}>
-                {t('reward')}: {task.reward}
+                {t('tasks.reward')}: {task.reward}
               </div>
             </div>
 
             <button style={actionButtonStyle}>
-              {t('claim')}
+              {t('tasks.claim')}
             </button>
           </div>
         ))}
@@ -84,3 +84,4 @@ const actionButtonStyle: React.CSSProperties = {
 };
 
 export default EngagementTasksPage;
+  
