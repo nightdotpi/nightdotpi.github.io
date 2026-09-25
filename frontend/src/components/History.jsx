@@ -1,10 +1,7 @@
 // frontend/src/components/History.jsx
 import React, { useEffect, useState } from 'react';
 import { useI18n } from '../i18n/I18nContext';
-
-// نکته: حتما این آدرس را به دامین پروژه جدید (Night) تغییر دهید
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'https://night.bonto.run/api'; 
+import axiosClient from '../lib/axiosClient';
 
 const History = (props) => {
   const { onPaymentSuccess = () => {}, onPaymentError = () => {} } = props;
@@ -22,28 +19,23 @@ const History = (props) => {
         setLoading(true);
         setError(null);
 
-        // هشدار: توکن را در فایل .env قرار دهید
-        const token = import.meta.env.VITE_API_TOKEN; 
+        const response = await axiosClient.get('/payment/history');
+        const data = response.data;
 
-        const response = await fetch(`${API_BASE_URL}/payment/history`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            ...(token ? { Authorization: `Bearer ${token}` } : {}),
-          },
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.success) {
+        if (data.success) {
           setTransactions(Array.isArray(data.data) ? data.data : []);
+          onPaymentSuccess(data);
         } else {
           setError(data.message || t('history.serverConnectionError'));
           onPaymentError(data);
         }
       } catch (err) {
         console.error('History fetch error:', err);
-        setError(t('history.serverConnectionError'));
+        const message =
+          err?.response?.data?.message ||
+          err?.message ||
+          t('history.serverConnectionError');
+        setError(message);
         onPaymentError(err);
       } finally {
         setLoading(false);
@@ -51,14 +43,27 @@ const History = (props) => {
     };
 
     fetchHistory();
-  }, [t, onPaymentError]);
+  }, [t, onPaymentError, onPaymentSuccess]);
 
   const getTransactionId = (tx) => {
-    return tx.piTransactionId || tx.txid || tx.paymentId || tx.orderId || tx.id || 'N/A';
+    return (
+      tx.piTransactionId ||
+      tx.txid ||
+      tx.paymentId ||
+      tx.orderId ||
+      tx.id ||
+      'N/A'
+    );
   };
 
   const getProductName = (tx) => {
-    return tx.metadata?.productName || tx.productName || tx.product?.name || tx.orderId || 'N/A';
+    return (
+      tx.metadata?.productName ||
+      tx.productName ||
+      tx.product?.name ||
+      tx.orderId ||
+      'N/A'
+    );
   };
 
   const getAmount = (tx) => {
@@ -68,7 +73,8 @@ const History = (props) => {
 
   const getStatusLabel = (status) => {
     const normalized = String(status || '').toUpperCase();
-    if (normalized === 'COMPLETED' || normalized === 'SUCCESS') return t('history.statusSuccessful');
+    if (normalized === 'COMPLETED' || normalized === 'SUCCESS')
+      return t('history.statusSuccessful');
     if (normalized === 'APPROVED') return t('history.statusApproved');
     if (normalized === 'PENDING') return t('history.statusPending');
     if (normalized === 'CANCELLED') return t('history.statusCancelled');
@@ -77,15 +83,19 @@ const History = (props) => {
 
   const getStatusStyle = (status) => {
     const normalized = String(status || '').toUpperCase();
-    if (normalized === 'COMPLETED' || normalized === 'SUCCESS') return { backgroundColor: '#d4edda', color: '#155724' };
-    if (normalized === 'APPROVED') return { backgroundColor: '#d1ecf1', color: '#0c5460' };
-    if (normalized === 'PENDING') return { backgroundColor: '#fff3cd', color: '#856404' };
+    if (normalized === 'COMPLETED' || normalized === 'SUCCESS')
+      return { backgroundColor: '#d4edda', color: '#155724' };
+    if (normalized === 'APPROVED')
+      return { backgroundColor: '#d1ecf1', color: '#0c5460' };
+    if (normalized === 'PENDING')
+      return { backgroundColor: '#fff3cd', color: '#856404' };
     return { backgroundColor: '#f8d7da', color: '#721c24' };
   };
 
   if (loading) return <div style={styles.center}>{t('history.loading')}</div>;
 
-  if (error) return <div style={{ ...styles.center, color: 'red' }}>{error}</div>;
+  if (error)
+    return <div style={{ ...styles.center, color: 'red' }}>{error}</div>;
 
   return (
     <div style={{ ...styles.container, direction }}>
@@ -108,19 +118,35 @@ const History = (props) => {
             <tbody>
               {transactions.map((tx, index) => {
                 const transactionId = String(getTransactionId(tx));
-                const displayId = transactionId.length > 12 ? `${transactionId.substring(0, 12)}...` : transactionId;
+                const displayId =
+                  transactionId.length > 12
+                    ? `${transactionId.substring(0, 12)}...`
+                    : transactionId;
                 const statusStyle = getStatusStyle(tx.status);
 
                 return (
-                  <tr key={tx.id || tx._id || tx.orderId || index} style={styles.tableRow}>
+                  <tr
+                    key={tx.id || tx._id || tx.orderId || index}
+                    style={styles.tableRow}
+                  >
                     <td style={styles.td}>{displayId}</td>
                     <td style={styles.td}>{getAmount(tx)}</td>
                     <td style={styles.td}>{getProductName(tx)}</td>
                     <td style={styles.td}>
-                      <span style={{ ...styles.status, ...statusStyle }}>{getStatusLabel(tx.status)}</span>
+                      <span style={{ ...styles.status, ...statusStyle }}>
+                        {getStatusLabel(tx.status)}
+                      </span>
                     </td>
                     <td style={styles.td}>
-                      {tx.createdAt ? new Date(tx.createdAt).toLocaleDateString(lang === 'fa' ? 'fa-IR' : lang === 'tr' ? 'tr-TR' : 'en-US') : 'N/A'}
+                      {tx.createdAt
+                        ? new Date(tx.createdAt).toLocaleDateString(
+                            lang === 'fa'
+                              ? 'fa-IR'
+                              : lang === 'tr'
+                                ? 'tr-TR'
+                                : 'en-US'
+                          )
+                        : 'N/A'}
                     </td>
                   </tr>
                 );
@@ -133,8 +159,59 @@ const History = (props) => {
   );
 };
 
-// Styles remain unchanged for design consistency
-const styles = { /* ... استایل‌های شما ... */ };
+const styles = {
+  container: {
+    maxWidth: '960px',
+    margin: '0 auto',
+    padding: '24px 16px',
+    fontFamily: 'system-ui, -apple-system, sans-serif',
+    color: '#1f2937',
+  },
+  title: {
+    fontSize: '1.5rem',
+    fontWeight: 700,
+    marginBottom: '20px',
+    color: '#311b92',
+  },
+  center: {
+    textAlign: 'center',
+    padding: '40px 16px',
+    color: '#6b7280',
+  },
+  tableWrapper: {
+    overflowX: 'auto',
+    borderRadius: '12px',
+    boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    background: '#fff',
+  },
+  tableHeader: {
+    background: 'linear-gradient(135deg, #311b92, #673ab7)',
+    color: '#fff',
+  },
+  th: {
+    padding: '12px 14px',
+    textAlign: 'left',
+    fontWeight: 600,
+    fontSize: '0.875rem',
+  },
+  tableRow: {
+    borderBottom: '1px solid #e5e7eb',
+  },
+  td: {
+    padding: '12px 14px',
+    fontSize: '0.875rem',
+  },
+  status: {
+    display: 'inline-block',
+    padding: '4px 10px',
+    borderRadius: '999px',
+    fontSize: '0.75rem',
+    fontWeight: 600,
+  },
+};
 
 export default History;
-                        
