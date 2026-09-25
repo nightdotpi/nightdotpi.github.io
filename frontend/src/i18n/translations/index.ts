@@ -1,5 +1,6 @@
 import { common } from './common';
 import { navbar } from './navbar';
+import { nav } from './nav';
 import { hero } from './hero';
 import { about } from './about';
 import { features } from './features';
@@ -13,7 +14,7 @@ import { footer } from './footer';
 import { languageSwitcher } from './languageSwitcher';
 import { piHomeLogin } from './piHomeLogin';
 import { piPaymentPanel } from './piPaymentPanel';
-import { signIn } from './signIn';
+import { signin } from './signin';
 import { header } from './header';
 import { home } from './home';
 import { dig } from './dig';
@@ -21,10 +22,10 @@ import { success } from './success';
 import { history } from './history';
 import { productCard } from './productCard';
 
-// ترکیب به صورت Namespace
 export const translations = {
   common,
   navbar,
+  nav,
   hero,
   about,
   features,
@@ -38,7 +39,7 @@ export const translations = {
   languageSwitcher,
   piHomeLogin,
   piPaymentPanel,
-  signIn,
+  signin,
   header,
   home,
   dig,
@@ -47,6 +48,5 @@ export const translations = {
   productCard,
 };
 
-// تعریف تایپ اصلی بر اساس ساختار بالا
-// این تایپ به TypeScript می‌فهماند که هر کلید، شامل ماژول‌های بالا است
 export type Translations = typeof translations;
+  
