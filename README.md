@@ -130,3 +130,17 @@ Contributions are welcome once the repository is public and the initial architec
 Disclaimer
 Night is an evolving ecosystem. Some components depend on third-party capabilities (e.g., Pi SDK features, token transfer support, and network availability). Specifications may change as the underlying platforms evolve.
 
+---
+
+## ⚠️ Security Notice (Important)
+
+If `backend/.env` (or any file containing real secrets) was ever committed or shared:
+
+1. **Immediately rotate** all secrets:
+   - `JWT_SECRET`
+   - `ADMIN_SECRET_KEY`
+   - `PI_API_KEY`
+   - Database password / connection string
+2. Never commit `.env` files. Use `.env.example` only.
+3. Prefer platform secrets (Bonto / Render / GitHub Actions secrets / Vault).
+4. The `/env-check` and `/api/env-check` endpoints require the admin key in production.
