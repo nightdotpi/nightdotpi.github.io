@@ -202,6 +202,7 @@ app.use((req, res, next) => {
 const defaultAllowedOrigins = [
   'https://nightdotpi.github.io',
   'https://night9423.pinet.com',
+  'https://pinightpi.github.io',
   'https://nightez2278.pinet.com',
   'https://night.bonto.run',
   'https://sandbox.minepi.com',
