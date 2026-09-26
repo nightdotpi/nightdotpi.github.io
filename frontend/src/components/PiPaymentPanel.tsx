@@ -1,7 +1,11 @@
 // frontend/src/components/PiPaymentPanel.tsx
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import axiosClient from '../lib/axiosClient';
+import axios from 'axios';
+import axiosClient, {
+  API_BASE_URL,
+  FALLBACK_API_URL,
+} from '../lib/axiosClient';
 
 declare global {
   interface Window {
@@ -11,10 +15,6 @@ declare global {
   }
 }
 
-const API_BASE_URL = (
-  import.meta.env.VITE_API_URL || 'https://night.bonto.run/api'
-).replace(/\/+$/, '');
-
 const parseBooleanEnv = (value: unknown, defaultValue = false): boolean => {
   if (value === undefined || value === null || value === '') {
     return defaultValue;
@@ -22,19 +22,22 @@ const parseBooleanEnv = (value: unknown, defaultValue = false): boolean => {
   return String(value).trim().toLowerCase() === 'true';
 };
 
-/**
- * Mainnet by default.
- * For Sandbox/Testnet set: VITE_PI_SANDBOX=true
- */
 const PI_SANDBOX = parseBooleanEnv(import.meta.env.VITE_PI_SANDBOX, false);
 
 const DEFAULT_AMOUNT = import.meta.env.VITE_DEFAULT_PI_AMOUNT || '0.01';
 const MIN_AMOUNT = Number(import.meta.env.VITE_MIN_PI_AMOUNT || '0.001');
 const MAX_AMOUNT = Number(import.meta.env.VITE_MAX_PI_AMOUNT || '10000000000');
 
-function getHealthUrl() {
-  if (!API_BASE_URL) return '';
-  return API_BASE_URL.replace(/\/api\/?$/, '') + '/health';
+function getApiRoot(): string {
+  const base = (API_BASE_URL || FALLBACK_API_URL).replace(/\/+$/, '');
+  if (!base.startsWith('http') || /github\.io/i.test(base)) {
+    return FALLBACK_API_URL;
+  }
+  return base;
+}
+
+function getHealthUrl(): string {
+  return getApiRoot().replace(/\/api$/i, '') + '/health';
 }
 
 const PiPaymentPanel: React.FC = () => {
@@ -52,10 +55,9 @@ const PiPaymentPanel: React.FC = () => {
   const networkValue = PI_SANDBOX ? 'testnet' : 'mainnet';
 
   useEffect(() => {
-    console.log('User Agent:', navigator.userAgent);
-    console.log('window.Pi:', window.Pi);
-    console.log('API_BASE_URL:', API_BASE_URL);
-    console.log('PI_SANDBOX:', PI_SANDBOX);
+    console.log('[PiPayment] API root:', getApiRoot());
+    console.log('[PiPayment] PI_SANDBOX:', PI_SANDBOX);
+    console.log('[PiPayment] window.Pi:', !!window.Pi);
 
     if (!window.Pi) {
       setStatus('Pi SDK not found. Please open this app inside Pi Browser.');
@@ -70,6 +72,13 @@ const PiPaymentPanel: React.FC = () => {
         });
         window.__PI_SDK_INITIALIZED__ = true;
         window.__PI_SDK_SANDBOX__ = PI_SANDBOX;
+      } else if (window.__PI_SDK_SANDBOX__ !== PI_SANDBOX) {
+        console.warn(
+          'Pi SDK already initialized with different sandbox flag',
+          window.__PI_SDK_SANDBOX__,
+          'vs',
+          PI_SANDBOX
+        );
       }
 
       setStatus(`Pi SDK ready. Network: ${networkLabel}`);
@@ -80,21 +89,14 @@ const PiPaymentPanel: React.FC = () => {
   }, [networkLabel]);
 
   const warmUpBackend = async () => {
-    const healthUrl = getHealthUrl();
-    if (!healthUrl) return;
-
-    setStatus('Warming up backend...');
     try {
-      await fetch(healthUrl, { method: 'GET' });
+      setStatus('Warming up backend...');
+      await fetch(getHealthUrl(), { method: 'GET', mode: 'cors' });
     } catch (error) {
       console.warn('Backend warm-up failed:', error);
     }
   };
 
-  /**
-   * Login only through AuthContext.loginWithPi
-   * so token is stored once and used by axiosClient.
-   */
   const loginWithPi = async () => {
     if (!window.Pi) {
       setStatus('Pi SDK not found. Please open this app inside Pi Browser.');
@@ -104,9 +106,7 @@ const PiPaymentPanel: React.FC = () => {
     try {
       setIsLoggingIn(true);
       setStatus('Authenticating with Pi...');
-
       await warmUpBackend();
-
       const user = await auth.loginWithPi();
       setStatus(`Login successful. Welcome @${user.username}`);
     } catch (error: any) {
@@ -129,7 +129,6 @@ const PiPaymentPanel: React.FC = () => {
 
   const validateAmount = () => {
     const parsedAmount = Number(amount);
-
     if (Number.isNaN(parsedAmount)) {
       return { valid: false, value: 0, message: 'Please enter a valid payment amount.' };
     }
@@ -150,24 +149,67 @@ const PiPaymentPanel: React.FC = () => {
     return { valid: true, value: parsedAmount, message: '' };
   };
 
+  /**
+   * Critical path for wallet "Preparing for a payment..."
+   * Must succeed within ~30 seconds or wallet expires.
+   */
   const approvePaymentOnServer = async (
     paymentId: string,
     orderId: string,
     paymentAmount: number
   ) => {
-    const response = await axiosClient.post('/pi/approve', {
+    const url = `${getApiRoot()}/pi/approve`;
+    const token = localStorage.getItem('token');
+    const payload = {
       paymentId,
       orderId,
       amount: paymentAmount,
       network: networkValue,
       pageUrl: window.location.href,
       pageOrigin: window.location.origin,
-    });
+    };
 
-    if (!response.data?.success) {
-      throw new Error(response.data?.message || 'Server approval failed');
+    console.log('[approve] POST', url, payload);
+
+    const doRequest = async () => {
+      const response = await axios.post(url, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        timeout: 25000,
+      });
+      return response;
+    };
+
+    try {
+      let response = await doRequest();
+      if (!response.data?.success) {
+        throw new Error(response.data?.message || 'Server approval failed');
+      }
+      console.log('[approve] OK', response.data);
+      return response.data;
+    } catch (error: any) {
+      // one retry after short delay (cold start / transient)
+      console.warn('[approve] first attempt failed, retrying...', error?.message);
+      await new Promise((r) => setTimeout(r, 800));
+      try {
+        const response = await doRequest();
+        if (!response.data?.success) {
+          throw new Error(response.data?.message || 'Server approval failed');
+        }
+        console.log('[approve] OK after retry', response.data);
+        return response.data;
+      } catch (retryError: any) {
+        const msg =
+          retryError?.response?.data?.message ||
+          retryError?.response?.data?.piError?.message ||
+          retryError?.message ||
+          'Server approval failed';
+        console.error('[approve] failed', retryError?.response?.data || retryError);
+        throw new Error(msg);
+      }
     }
-    return response.data;
   };
 
   const completePaymentOnServer = async (
@@ -176,7 +218,9 @@ const PiPaymentPanel: React.FC = () => {
     orderId: string,
     paymentAmount: number
   ) => {
-    const response = await axiosClient.post('/pi/complete', {
+    const url = `${getApiRoot()}/pi/complete`;
+    const token = localStorage.getItem('token');
+    const payload = {
       paymentId,
       txid,
       orderId,
@@ -184,6 +228,16 @@ const PiPaymentPanel: React.FC = () => {
       network: networkValue,
       pageUrl: window.location.href,
       pageOrigin: window.location.origin,
+    };
+
+    console.log('[complete] POST', url, payload);
+
+    const response = await axios.post(url, payload, {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      timeout: 25000,
     });
 
     if (!response.data?.success) {
@@ -203,10 +257,6 @@ const PiPaymentPanel: React.FC = () => {
     }
     if (!isAuthenticated) {
       setStatus('Please login with Pi first.');
-      return;
-    }
-    if (!API_BASE_URL) {
-      setStatus('VITE_API_URL is not set. Backend URL is required.');
       return;
     }
 
@@ -239,42 +289,58 @@ const PiPaymentPanel: React.FC = () => {
 
       const callbacks = {
         onReadyForServerApproval: async (paymentId: string) => {
+          console.log('[callback] onReadyForServerApproval', paymentId);
           try {
-            setStatus('Approving payment on server...');
+            setStatus('Approving on server (do not close wallet)...');
             await approvePaymentOnServer(paymentId, orderId, paymentAmount);
-            setStatus('Payment approved by server. Continue in Pi Wallet.');
+            setStatus('Approved. Confirm the payment in Pi Wallet.');
           } catch (error: any) {
             console.error('Server approval error:', error);
             setIsPaying(false);
-            setStatus('Server approval error: ' + (error?.message || String(error)));
+            setStatus(
+              'Approve failed: ' +
+                (error?.message || String(error)) +
+                ' — Check PI_API_KEY on Bonto and Developer Portal.'
+            );
           }
         },
+
         onReadyForServerCompletion: async (paymentId: string, txid: string) => {
+          console.log('[callback] onReadyForServerCompletion', paymentId, txid);
           try {
             setStatus('Completing payment on server...');
-            await completePaymentOnServer(paymentId, txid, orderId, paymentAmount);
+            await completePaymentOnServer(
+              paymentId,
+              txid,
+              orderId,
+              paymentAmount
+            );
             setStatus('Payment completed successfully. TXID: ' + txid);
             setIsPaying(false);
           } catch (error: any) {
             console.error('Server completion error:', error);
             setIsPaying(false);
-            setStatus('Server completion error: ' + (error?.message || String(error)));
+            setStatus(
+              'Complete failed: ' + (error?.message || String(error))
+            );
           }
         },
+
         onCancel: (paymentId: string) => {
           console.log('Payment cancelled:', paymentId);
           setIsPaying(false);
           setStatus('Payment cancelled by user.');
         },
-        onError: (error: any) => {
-          console.error('Payment error:', error);
+
+        onError: (error: any, payment: any) => {
+          console.error('Payment error:', error, payment);
           setIsPaying(false);
           setStatus('Payment error: ' + (error?.message || String(error)));
         },
       };
 
       await window.Pi.createPayment(paymentData, callbacks);
-      setStatus('Payment request sent to Pi Wallet. Please confirm.');
+      setStatus('Payment opened in Pi Wallet. Waiting for approval...');
     } catch (error: any) {
       console.error('Create payment error:', error);
       setIsPaying(false);
@@ -424,9 +490,6 @@ const PiPaymentPanel: React.FC = () => {
         }}
       >
         {status}
-        {auth.error ? (
-          <div style={{ marginTop: 8, color: '#c62828' }}>{auth.error}</div>
-        ) : null}
       </div>
     </section>
   );
