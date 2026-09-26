@@ -3,62 +3,13 @@ import React, { useEffect, useState } from 'react';
 import './Poll.css';
 import { useI18n } from '../i18n/I18nContext';
 import { useAuth } from '../context/AuthContext';
-
-const FALLBACK_API_URL = 'https://night.bonto.run/api';
+import axios from 'axios';
 
 /**
- * Never call GitHub Pages / relative paths for API —
- * those return HTML and cause: Unexpected token '<', "<!DOCTYPE "...
+ * Hardcoded backend — do not use relative paths or frontend domain.
+ * Wrong host returns HTML 404 → "Unexpected token '<'" / "HTML instead of JSON".
  */
-function getApiBaseUrl() {
-  const raw = String(import.meta.env.VITE_API_URL || '').trim();
-
-  if (!raw || raw.startsWith('/') || raw.startsWith('./')) {
-    return FALLBACK_API_URL;
-  }
-
-  let url = raw.replace(/\/+$/, '');
-
-  if (/github\.io/i.test(url)) {
-    return FALLBACK_API_URL;
-  }
-
-  if (/bonto\.run/i.test(url) && !/\/api$/i.test(url)) {
-    url = `${url}/api`;
-  }
-
-  return url;
-}
-
-const API_BASE_URL = getApiBaseUrl();
-
-async function parseJsonResponse(response) {
-  const contentType = response.headers.get('content-type') || '';
-  const text = await response.text();
-
-  if (!text) {
-    throw new Error(`Empty response (${response.status})`);
-  }
-
-  // HTML error page (static host / wrong URL)
-  if (
-    text.trimStart().startsWith('<!DOCTYPE') ||
-    text.trimStart().startsWith('<html') ||
-    contentType.includes('text/html')
-  ) {
-    throw new Error(
-      `API returned HTML instead of JSON (${response.status}). Check VITE_API_URL. Expected: ${FALLBACK_API_URL}`
-    );
-  }
-
-  try {
-    return JSON.parse(text);
-  } catch {
-    throw new Error(
-      `Invalid JSON from API (${response.status}): ${text.slice(0, 120)}`
-    );
-  }
-}
+const BONTO_API = 'https://night.bonto.run/api';
 
 const Poll = () => {
   const { t, lang } = useI18n();
@@ -82,7 +33,7 @@ const Poll = () => {
 
   const textAlign = lang === 'fa' || lang === 'ar' ? 'right' : 'left';
 
-  const getAuthHeaders = () => {
+  const authHeaders = () => {
     const token = localStorage.getItem('token');
     return {
       'Content-Type': 'application/json',
@@ -108,23 +59,37 @@ const Poll = () => {
     return `@${visiblePart}${'*'.repeat(hiddenLength)}`;
   };
 
+  const formatDate = (date) =>
+    date
+      ? new Date(date).toLocaleString(lang === 'fa' ? 'fa-IR' : 'en-US')
+      : '';
+
   const fetchPoll = async () => {
+    const url = `${BONTO_API}/poll/current`;
     try {
       setLoading(true);
       setError('');
-
-      const url = `${API_BASE_URL}/poll/current`;
       console.log('[Poll] GET', url);
 
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: getAuthHeaders(),
+      const response = await axios.get(url, {
+        headers: authHeaders(),
+        timeout: 30000,
+        // never follow to HTML pages as "success"
+        validateStatus: () => true,
       });
 
-      const data = await parseJsonResponse(response);
+      const data = response.data;
 
-      if (!response.ok || !data.success) {
-        throw new Error(data.message || t('poll.errors.connection'));
+      if (typeof data === 'string' && data.includes('<!DOCTYPE')) {
+        throw new Error(
+          `Wrong host returned HTML. Request was: ${url}`
+        );
+      }
+
+      if (response.status !== 200 || !data?.success) {
+        throw new Error(
+          data?.message || `Poll request failed (${response.status})`
+        );
       }
 
       setVotes(
@@ -140,30 +105,35 @@ const Poll = () => {
       setPollData(data.data?.poll || null);
     } catch (err) {
       console.error('Poll fetch error:', err);
-      setError(err.message || t('poll.errors.connection'));
+      const msg =
+        err?.response?.data?.message ||
+        err?.message ||
+        t('poll.errors.connection');
+      setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
   const fetchVoteHistory = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setHistory([]);
-        return;
-      }
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setHistory([]);
+      return;
+    }
 
-      const url = `${API_BASE_URL}/poll/history`;
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: getAuthHeaders(),
+    const url = `${BONTO_API}/poll/history`;
+    try {
+      const response = await axios.get(url, {
+        headers: authHeaders(),
+        timeout: 30000,
+        validateStatus: () => true,
       });
 
-      const data = await parseJsonResponse(response);
-
-      if (response.ok && data.success) {
-        setHistory(Array.isArray(data.data) ? data.data : []);
+      if (response.status === 200 && response.data?.success) {
+        setHistory(
+          Array.isArray(response.data.data) ? response.data.data : []
+        );
       }
     } catch (err) {
       console.warn('Vote history fetch error:', err);
@@ -192,31 +162,38 @@ const Poll = () => {
       return;
     }
 
+    const url = `${BONTO_API}/poll/vote`;
+
     try {
       setVoting(true);
       setError('');
       setMessage('');
-
-      const url = `${API_BASE_URL}/poll/vote`;
       console.log('[Poll] POST', url, option);
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({ option }),
-      });
-
-      const data = await parseJsonResponse(response);
-
-      if (!response.ok || !data.success) {
-        if (response.status === 409 && data.data) {
-          setVotes(data.data.votes);
-          setUserVote(data.data.userVote);
-          setPollData(data.data.poll);
-          setMessage(t('poll.messages.alreadyVoted'));
-          return;
+      const response = await axios.post(
+        url,
+        { option },
+        {
+          headers: authHeaders(),
+          timeout: 30000,
+          validateStatus: () => true,
         }
-        throw new Error(data.message || t('poll.errors.connection'));
+      );
+
+      const data = response.data;
+
+      if (response.status === 409 && data?.data) {
+        setVotes(data.data.votes);
+        setUserVote(data.data.userVote);
+        setPollData(data.data.poll);
+        setMessage(t('poll.messages.alreadyVoted'));
+        return;
+      }
+
+      if (response.status !== 200 || !data?.success) {
+        throw new Error(
+          data?.message || `Vote failed (${response.status})`
+        );
       }
 
       setVotes(data.data.votes);
@@ -225,16 +202,15 @@ const Poll = () => {
       setMessage(t('poll.messages.voteSuccess'));
       await fetchVoteHistory();
     } catch (err) {
-      setError(err.message || t('poll.errors.connection'));
+      setError(
+        err?.response?.data?.message ||
+          err?.message ||
+          t('poll.errors.connection')
+      );
     } finally {
       setVoting(false);
     }
   };
-
-  const formatDate = (date) =>
-    date
-      ? new Date(date).toLocaleString(lang === 'fa' ? 'fa-IR' : 'en-US')
-      : '';
 
   if (loading) {
     return (
@@ -277,7 +253,7 @@ const Poll = () => {
             <div
               className="result-bar result-bar-yes"
               style={{ width: `${votes.yesPercent}%` }}
-            ></div>
+            />
           </div>
 
           <div
@@ -293,19 +269,21 @@ const Poll = () => {
             <div
               className="result-bar result-bar-no"
               style={{ width: `${votes.noPercent}%` }}
-            ></div>
+            />
           </div>
         </div>
 
         {!userVote && !voting && (
           <div className="poll-actions">
             <button
+              type="button"
               onClick={() => handleVote('yes')}
               className="poll-btn poll-btn-yes"
             >
               {t('poll.labels.yes')}
             </button>
             <button
+              type="button"
               onClick={() => handleVote('no')}
               className="poll-btn poll-btn-no"
             >
@@ -313,6 +291,7 @@ const Poll = () => {
             </button>
           </div>
         )}
+
         {voting && (
           <div className="poll-loading-text">{t('common.loading')}...</div>
         )}
