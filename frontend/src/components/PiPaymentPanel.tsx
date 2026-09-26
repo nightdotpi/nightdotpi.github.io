@@ -11,24 +11,20 @@ declare global {
   }
 }
 
-const API_BASE_URL =
-  (import.meta.env.VITE_API_URL || 'https://night.bonto.run/api').replace(
-    /\/+$/,
-    ''
-  );
+const API_BASE_URL = (
+  import.meta.env.VITE_API_URL || 'https://night.bonto.run/api'
+).replace(/\/+$/, '');
 
 const parseBooleanEnv = (value: unknown, defaultValue = false): boolean => {
   if (value === undefined || value === null || value === '') {
     return defaultValue;
   }
-
   return String(value).trim().toLowerCase() === 'true';
 };
 
 /**
  * Mainnet by default.
- * For Sandbox/Testnet set:
- * VITE_PI_SANDBOX=true
+ * For Sandbox/Testnet set: VITE_PI_SANDBOX=true
  */
 const PI_SANDBOX = parseBooleanEnv(import.meta.env.VITE_PI_SANDBOX, false);
 
@@ -45,13 +41,12 @@ const PiPaymentPanel: React.FC = () => {
   const auth = useAuth();
 
   const [status, setStatus] = useState<string>('Initializing Pi SDK...');
-  const [username, setUsername] = useState<string>('');
   const [isPaying, setIsPaying] = useState<boolean>(false);
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
   const [amount, setAmount] = useState<string>(DEFAULT_AMOUNT);
 
   const isAuthenticated = Boolean(auth?.isAuthenticated);
-  const currentUsername = auth?.user?.username || username;
+  const currentUsername = auth?.user?.username || '';
 
   const networkLabel = PI_SANDBOX ? 'Testnet' : 'Mainnet';
   const networkValue = PI_SANDBOX ? 'testnet' : 'mainnet';
@@ -59,8 +54,6 @@ const PiPaymentPanel: React.FC = () => {
   useEffect(() => {
     console.log('User Agent:', navigator.userAgent);
     console.log('window.Pi:', window.Pi);
-    console.log('Current URL:', window.location.href);
-    console.log('Current Origin:', window.location.origin);
     console.log('API_BASE_URL:', API_BASE_URL);
     console.log('PI_SANDBOX:', PI_SANDBOX);
 
@@ -75,18 +68,8 @@ const PiPaymentPanel: React.FC = () => {
           version: '2.0',
           sandbox: PI_SANDBOX,
         });
-
         window.__PI_SDK_INITIALIZED__ = true;
         window.__PI_SDK_SANDBOX__ = PI_SANDBOX;
-
-        console.log('Pi SDK initialized successfully.', {
-          sandbox: PI_SANDBOX,
-        });
-      } else if (window.__PI_SDK_SANDBOX__ !== PI_SANDBOX) {
-        console.warn('Pi SDK was already initialized with another sandbox value.', {
-          initializedSandbox: window.__PI_SDK_SANDBOX__,
-          currentSandbox: PI_SANDBOX,
-        });
       }
 
       setStatus(`Pi SDK ready. Network: ${networkLabel}`);
@@ -94,55 +77,27 @@ const PiPaymentPanel: React.FC = () => {
       console.error('Pi SDK init error:', error);
       setStatus('Pi SDK init error: ' + (error?.message || String(error)));
     }
-  }, []);
-
-  useEffect(() => {
-    if (auth?.user?.username) {
-      setUsername(auth.user.username);
-    }
-  }, [auth?.user?.username]);
-
-  const onIncompletePaymentFound = (payment: any) => {
-    console.log('Incomplete payment found:', payment);
-    setStatus('Incomplete payment found. Please complete or cancel it in Pi Browser.');
-  };
+  }, [networkLabel]);
 
   const warmUpBackend = async () => {
-    if (!API_BASE_URL) {
-      throw new Error('VITE_API_URL is not set.');
-    }
-
     const healthUrl = getHealthUrl();
+    if (!healthUrl) return;
 
-    if (!healthUrl) {
-      return;
-    }
-
-    console.log('Warming up backend:', healthUrl);
     setStatus('Warming up backend...');
-
     try {
-      await fetch(healthUrl, {
-        method: 'GET',
-      });
+      await fetch(healthUrl, { method: 'GET' });
     } catch (error) {
       console.warn('Backend warm-up failed:', error);
     }
   };
 
+  /**
+   * Login only through AuthContext.loginWithPi
+   * so token is stored once and used by axiosClient.
+   */
   const loginWithPi = async () => {
-    if (!auth) {
-      setStatus('Auth context is missing.');
-      return;
-    }
-
     if (!window.Pi) {
       setStatus('Pi SDK not found. Please open this app inside Pi Browser.');
-      return;
-    }
-
-    if (typeof window.Pi.authenticate !== 'function') {
-      setStatus('Pi authenticate function is not available.');
       return;
     }
 
@@ -150,52 +105,17 @@ const PiPaymentPanel: React.FC = () => {
       setIsLoggingIn(true);
       setStatus('Authenticating with Pi...');
 
-      const authResult = await window.Pi.authenticate(
-        ['username', 'payments'],
-        onIncompletePaymentFound
-      );
+      await warmUpBackend();
 
-      console.log('Pi auth result:', authResult);
-
-      const piUserId =
-        authResult?.user?.uid ||
-        authResult?.user?.id ||
-        authResult?.user?._id ||
-        authResult?.uid ||
-        authResult?.id;
-
-      const piUsername =
-        authResult?.user?.username ||
-        authResult?.username ||
-        'Pi User';
-
-      const accessToken =
-        authResult?.accessToken ||
-        authResult?.access_token ||
-        authResult?.token;
-
-      if (!piUserId) {
-        throw new Error('Invalid Pi user data received. Missing user id.');
-      }
-
-      /**
-       * سازگار با AuthContext قبلی تو:
-       * این تابع در فایل قبلی وجود داشت.
-       */
-      await auth.login(String(piUserId), String(piUsername), accessToken);
-
-      setUsername(String(piUsername));
-      setStatus(`Login successful. Welcome @${piUsername}`);
+      const user = await auth.loginWithPi();
+      setStatus(`Login successful. Welcome @${user.username}`);
     } catch (error: any) {
       console.error('Pi auth error:', error);
-
       setStatus(
         'Login failed: ' +
-          (
-            error?.response?.data?.message ||
+          (error?.response?.data?.message ||
             error?.message ||
-            'User cancelled or authentication failed'
-          )
+            'User cancelled or authentication failed')
       );
     } finally {
       setIsLoggingIn(false);
@@ -203,8 +123,7 @@ const PiPaymentPanel: React.FC = () => {
   };
 
   const handleLogout = () => {
-    auth?.logout();
-    setUsername('');
+    auth.logout();
     setStatus(`Pi SDK ready. Network: ${networkLabel}`);
   };
 
@@ -212,13 +131,8 @@ const PiPaymentPanel: React.FC = () => {
     const parsedAmount = Number(amount);
 
     if (Number.isNaN(parsedAmount)) {
-      return {
-        valid: false,
-        value: 0,
-        message: 'Please enter a valid payment amount.',
-      };
+      return { valid: false, value: 0, message: 'Please enter a valid payment amount.' };
     }
-
     if (parsedAmount < MIN_AMOUNT) {
       return {
         valid: false,
@@ -226,7 +140,6 @@ const PiPaymentPanel: React.FC = () => {
         message: `Minimum payment amount is ${MIN_AMOUNT} Pi.`,
       };
     }
-
     if (parsedAmount > MAX_AMOUNT) {
       return {
         valid: false,
@@ -234,12 +147,7 @@ const PiPaymentPanel: React.FC = () => {
         message: `Maximum payment amount is ${MAX_AMOUNT} Pi.`,
       };
     }
-
-    return {
-      valid: true,
-      value: parsedAmount,
-      message: '',
-    };
+    return { valid: true, value: parsedAmount, message: '' };
   };
 
   const approvePaymentOnServer = async (
@@ -247,41 +155,19 @@ const PiPaymentPanel: React.FC = () => {
     orderId: string,
     paymentAmount: number
   ) => {
-    console.log('Calling approve endpoint:', '/pi/approve', {
+    const response = await axiosClient.post('/pi/approve', {
       paymentId,
       orderId,
       amount: paymentAmount,
       network: networkValue,
+      pageUrl: window.location.href,
+      pageOrigin: window.location.origin,
     });
 
-    try {
-      const response = await axiosClient.post('/pi/approve', {
-        paymentId,
-        orderId,
-        amount: paymentAmount,
-        network: networkValue,
-        pageUrl: window.location.href,
-        pageOrigin: window.location.origin,
-      });
-
-      console.log('Approve response:', response.status, response.data);
-
-      if (!response.data?.success) {
-        throw new Error(response.data?.message || 'Server approval failed');
-      }
-
-      return response.data;
-    } catch (error: any) {
-      console.error('Approve request failed:', error?.response?.data || error);
-
-      throw new Error(
-        error?.response?.data?.message ||
-          error?.response?.data?.error?.message ||
-          error?.response?.data?.error ||
-          error?.message ||
-          'Server approval failed'
-      );
+    if (!response.data?.success) {
+      throw new Error(response.data?.message || 'Server approval failed');
     }
+    return response.data;
   };
 
   const completePaymentOnServer = async (
@@ -290,43 +176,20 @@ const PiPaymentPanel: React.FC = () => {
     orderId: string,
     paymentAmount: number
   ) => {
-    console.log('Calling complete endpoint:', '/pi/complete', {
+    const response = await axiosClient.post('/pi/complete', {
       paymentId,
       txid,
       orderId,
       amount: paymentAmount,
       network: networkValue,
+      pageUrl: window.location.href,
+      pageOrigin: window.location.origin,
     });
 
-    try {
-      const response = await axiosClient.post('/pi/complete', {
-        paymentId,
-        txid,
-        orderId,
-        amount: paymentAmount,
-        network: networkValue,
-        pageUrl: window.location.href,
-        pageOrigin: window.location.origin,
-      });
-
-      console.log('Complete response:', response.status, response.data);
-
-      if (!response.data?.success) {
-        throw new Error(response.data?.message || 'Server completion failed');
-      }
-
-      return response.data;
-    } catch (error: any) {
-      console.error('Complete request failed:', error?.response?.data || error);
-
-      throw new Error(
-        error?.response?.data?.message ||
-          error?.response?.data?.error?.message ||
-          error?.response?.data?.error ||
-          error?.message ||
-          'Server completion failed'
-      );
+    if (!response.data?.success) {
+      throw new Error(response.data?.message || 'Server completion failed');
     }
+    return response.data;
   };
 
   const createPiPayment = async () => {
@@ -334,24 +197,20 @@ const PiPaymentPanel: React.FC = () => {
       setStatus('Pi SDK not found. Please open this app inside Pi Browser.');
       return;
     }
-
     if (typeof window.Pi.createPayment !== 'function') {
       setStatus('Pi createPayment function is not available.');
       return;
     }
-
     if (!isAuthenticated) {
       setStatus('Please login with Pi first.');
       return;
     }
-
     if (!API_BASE_URL) {
       setStatus('VITE_API_URL is not set. Backend URL is required.');
       return;
     }
 
     const amountValidation = validateAmount();
-
     if (!amountValidation.valid) {
       setStatus(amountValidation.message);
       return;
@@ -362,9 +221,7 @@ const PiPaymentPanel: React.FC = () => {
 
     try {
       setIsPaying(true);
-
       await warmUpBackend();
-
       setStatus(`Creating ${networkLabel} Pi payment...`);
 
       const paymentData = {
@@ -381,65 +238,42 @@ const PiPaymentPanel: React.FC = () => {
       };
 
       const callbacks = {
-        onReadyForServerApproval: async function (paymentId: string) {
+        onReadyForServerApproval: async (paymentId: string) => {
           try {
-            console.log('Ready for server approval:', paymentId);
             setStatus('Approving payment on server...');
-
             await approvePaymentOnServer(paymentId, orderId, paymentAmount);
-
             setStatus('Payment approved by server. Continue in Pi Wallet.');
           } catch (error: any) {
             console.error('Server approval error:', error);
             setIsPaying(false);
-            setStatus(
-              'Server approval error: ' + (error?.message || String(error))
-            );
+            setStatus('Server approval error: ' + (error?.message || String(error)));
           }
         },
-
-        onReadyForServerCompletion: async function (
-          paymentId: string,
-          txid: string
-        ) {
+        onReadyForServerCompletion: async (paymentId: string, txid: string) => {
           try {
-            console.log('Ready for server completion:', paymentId, txid);
             setStatus('Completing payment on server...');
-
-            await completePaymentOnServer(
-              paymentId,
-              txid,
-              orderId,
-              paymentAmount
-            );
-
+            await completePaymentOnServer(paymentId, txid, orderId, paymentAmount);
             setStatus('Payment completed successfully. TXID: ' + txid);
             setIsPaying(false);
           } catch (error: any) {
             console.error('Server completion error:', error);
             setIsPaying(false);
-            setStatus(
-              'Server completion error: ' + (error?.message || String(error))
-            );
+            setStatus('Server completion error: ' + (error?.message || String(error)));
           }
         },
-
-        onCancel: function (paymentId: string) {
+        onCancel: (paymentId: string) => {
           console.log('Payment cancelled:', paymentId);
           setIsPaying(false);
           setStatus('Payment cancelled by user.');
         },
-
-        onError: function (error: any, payment: any) {
-          console.error('Payment error:', error, payment);
+        onError: (error: any) => {
+          console.error('Payment error:', error);
           setIsPaying(false);
           setStatus('Payment error: ' + (error?.message || String(error)));
         },
       };
 
-      const payment = await window.Pi.createPayment(paymentData, callbacks);
-
-      console.log('Payment result:', payment);
+      await window.Pi.createPayment(paymentData, callbacks);
       setStatus('Payment request sent to Pi Wallet. Please confirm.');
     } catch (error: any) {
       console.error('Create payment error:', error);
@@ -462,10 +296,7 @@ const PiPaymentPanel: React.FC = () => {
         fontFamily: 'sans-serif',
       }}
     >
-      <h2 style={{ color: '#673ab7', marginBottom: '8px' }}>
-        Pi Payment
-      </h2>
-
+      <h2 style={{ color: '#673ab7', marginBottom: '8px' }}>Pi Payment</h2>
       <p style={{ color: '#666', fontSize: '14px' }}>
         Login with Pi and create a variable amount payment.
       </p>
@@ -537,7 +368,6 @@ const PiPaymentPanel: React.FC = () => {
             >
               Payment Amount Pi
             </label>
-
             <input
               type="number"
               min={MIN_AMOUNT}
@@ -557,14 +387,7 @@ const PiPaymentPanel: React.FC = () => {
                 boxSizing: 'border-box',
               }}
             />
-
-            <div
-              style={{
-                marginTop: '6px',
-                fontSize: '11px',
-                color: '#888',
-              }}
-            >
+            <div style={{ marginTop: '6px', fontSize: '11px', color: '#888' }}>
               Min: {MIN_AMOUNT} Pi / Max: {MAX_AMOUNT} Pi
             </div>
           </div>
@@ -601,6 +424,9 @@ const PiPaymentPanel: React.FC = () => {
         }}
       >
         {status}
+        {auth.error ? (
+          <div style={{ marginTop: 8, color: '#c62828' }}>{auth.error}</div>
+        ) : null}
       </div>
     </section>
   );
