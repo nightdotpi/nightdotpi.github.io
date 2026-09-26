@@ -51,7 +51,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
-      DOMAIN_NAME: https://nightez2278.pinet.com
+      DOMAIN_NAME: https://night9423.pinet.com
     ports:
       - "80:80"
       - "443:443"
