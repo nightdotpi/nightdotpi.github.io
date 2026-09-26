@@ -34,7 +34,7 @@ const PI_SANDBOX = parseBooleanEnv(import.meta.env.VITE_PI_SANDBOX, false);
 
 const DEFAULT_AMOUNT = import.meta.env.VITE_DEFAULT_PI_AMOUNT || '0.01';
 const MIN_AMOUNT = Number(import.meta.env.VITE_MIN_PI_AMOUNT || '0.001');
-const MAX_AMOUNT = Number(import.meta.env.VITE_MAX_PI_AMOUNT || '100');
+const MAX_AMOUNT = Number(import.meta.env.VITE_MAX_PI_AMOUNT || '10000000000');
 
 function getHealthUrl() {
   if (!API_BASE_URL) return '';
