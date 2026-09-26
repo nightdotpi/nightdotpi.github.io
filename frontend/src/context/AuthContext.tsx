@@ -6,7 +6,11 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react';
-import axiosClient from '../lib/axiosClient';
+import axios from 'axios';
+import axiosClient, {
+  API_BASE_URL,
+  FALLBACK_API_URL,
+} from '../lib/axiosClient';
 
 declare global {
   interface Window {
@@ -60,9 +64,20 @@ const parseBooleanEnv = (value: unknown, defaultValue = false): boolean => {
 
 const PI_SANDBOX = parseBooleanEnv(import.meta.env.VITE_PI_SANDBOX, false);
 
-const API_BASE_URL = (
-  import.meta.env.VITE_API_URL || 'https://night.bonto.run/api'
-).replace(/\/+$/, '');
+/** Absolute login URL – never relative, never github.io */
+function getLoginUrl(): string {
+  const base = (API_BASE_URL || FALLBACK_API_URL).replace(/\/+$/, '');
+  if (!base.startsWith('http') || /github\.io/i.test(base)) {
+    return `${FALLBACK_API_URL}/auth/pi-login`;
+  }
+  return `${base}/auth/pi-login`;
+}
+
+function getHealthUrl(): string {
+  const base = (API_BASE_URL || FALLBACK_API_URL).replace(/\/+$/, '');
+  const root = base.replace(/\/api$/i, '');
+  return `${root}/health`;
+}
 
 const normalizeUser = (userData: any): User => {
   const id =
@@ -91,7 +106,6 @@ const getSavedUser = (): User | null => {
   try {
     const savedUser = localStorage.getItem('user');
     if (!savedUser) return null;
-
     const normalizedUser = normalizeUser(JSON.parse(savedUser));
     if (!normalizedUser.id) {
       localStorage.removeItem('user');
@@ -110,57 +124,41 @@ const ensurePiSdkInitialized = () => {
       'Pi SDK is not loaded. Please open this app inside Pi Browser.'
     );
   }
-
-  if (window.__PI_SDK_INITIALIZED__) {
-    return;
-  }
-
+  if (window.__PI_SDK_INITIALIZED__) return;
   if (typeof window.Pi.init !== 'function') {
     throw new Error('Pi SDK init function is not available.');
   }
-
-  window.Pi.init({
-    version: '2.0',
-    sandbox: PI_SANDBOX,
-  });
-
+  window.Pi.init({ version: '2.0', sandbox: PI_SANDBOX });
   window.__PI_SDK_INITIALIZED__ = true;
   window.__PI_SDK_SANDBOX__ = PI_SANDBOX;
 };
 
 async function warmUpBackend() {
   try {
-    const healthUrl = API_BASE_URL.replace(/\/api\/?$/, '') + '/health';
-    await fetch(healthUrl, { method: 'GET' });
+    await fetch(getHealthUrl(), { method: 'GET', mode: 'cors' });
   } catch {
-    // ignore cold-start warm-up failures
+    // ignore
   }
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(() => getSavedUser());
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return Boolean(
-      localStorage.getItem('token') && localStorage.getItem('user')
-    );
-  });
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() =>
+    Boolean(localStorage.getItem('token') && localStorage.getItem('user'))
+  );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   const persistAuth = (token: string, userData: any): User => {
     const normalizedUser = normalizeUser(userData);
-
     if (!token || !normalizedUser.id) {
       throw new Error('Invalid authentication data received from server.');
     }
-
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(normalizedUser));
-
     setUser(normalizedUser);
     setIsAuthenticated(true);
     setError(null);
-
     return normalizedUser;
   };
 
@@ -174,19 +172,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const refreshAuth = async () => {
     setLoading(true);
     setError(null);
-
     try {
       const token = localStorage.getItem('token');
       if (!token) {
         clearAuth();
         return;
       }
-
       const response = await axiosClient.get('/auth/me');
-      const responseUser = response.data?.user;
-
-      if (responseUser) {
-        persistAuth(token, responseUser);
+      if (response.data?.user) {
+        persistAuth(token, response.data.user);
       } else {
         clearAuth();
       }
@@ -215,19 +209,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         throw new Error('Invalid Pi user data: missing user id.');
       }
 
-      const safeUsername = username || `PiUser_${String(pi_user_id).slice(0, 8)}`;
+      const safeUsername =
+        username || `PiUser_${String(pi_user_id).slice(0, 8)}`;
 
-      // Bonto cold start
       await warmUpBackend();
 
-      const response = await axiosClient.post('/auth/pi-login', {
-        pi_user_id: String(pi_user_id),
-        username: String(safeUsername),
-        accessToken: accessToken || undefined,
-        // aliases for older backends
-        piUserId: String(pi_user_id),
-        access_token: accessToken || undefined,
-      });
+      const loginUrl = getLoginUrl();
+      console.log('[Auth] POST login →', loginUrl);
+
+      // Absolute URL – bypasses any wrong axios baseURL in old bundles
+      const response = await axios.post(
+        loginUrl,
+        {
+          pi_user_id: String(pi_user_id),
+          username: String(safeUsername),
+          accessToken: accessToken || undefined,
+          piUserId: String(pi_user_id),
+          access_token: accessToken || undefined,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          timeout: 30000,
+        }
+      );
 
       const responseToken = response.data?.token;
       const responseUser = response.data?.user;
@@ -240,20 +244,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (err: any) {
       const status = err?.response?.status;
       let message =
-        err?.response?.data?.message ||
-        err?.message ||
-        'Login failed';
+        err?.response?.data?.message || err?.message || 'Login failed';
 
-      if (status === 426) {
+      if (status === 405) {
+        message =
+          'HTTP 405: frontend is calling the wrong host (static site). Rebuild with VITE_API_URL=https://night.bonto.run/api';
+      } else if (status === 426) {
         message = 'Please open this app inside Pi Browser.';
       } else if (!err?.response && err?.request) {
         message =
-          'Cannot connect to server. Check VITE_API_URL and backend status.';
+          'Cannot connect to server. Check network / VITE_API_URL / Bonto status.';
       }
 
       setError(message);
       clearAuth();
-      console.error('Login Error:', err?.response?.data || err);
+      console.error('Login Error:', {
+        status,
+        data: err?.response?.data,
+        message: err?.message,
+        loginUrl: getLoginUrl(),
+      });
       throw new Error(message);
     } finally {
       setLoading(false);
@@ -273,13 +283,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         );
       }
 
-      const onIncompletePaymentFound = (payment: any) => {
-        console.warn('Incomplete payment found during Pi login:', payment);
-      };
-
       const authResult = await window.Pi.authenticate(
         ['username', 'payments'],
-        onIncompletePaymentFound
+        (payment: any) => {
+          console.warn('Incomplete payment found during Pi login:', payment);
+        }
       );
 
       console.log('Pi auth result:', authResult);
@@ -292,9 +300,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         authResult?.id;
 
       const piUsername =
-        authResult?.user?.username ||
-        authResult?.username ||
-        'Pi User';
+        authResult?.user?.username || authResult?.username || 'Pi User';
 
       const accessToken =
         authResult?.accessToken ||
@@ -305,15 +311,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         throw new Error('Pi authentication did not return a valid user id.');
       }
 
-      // login() manages loading state; avoid double finally conflict
       setLoading(false);
       return await login(String(piUserId), String(piUsername), accessToken);
     } catch (err: any) {
       const message =
-        err?.response?.data?.message ||
-        err?.message ||
-        'Pi login failed';
-
+        err?.response?.data?.message || err?.message || 'Pi login failed';
       setError(message);
       clearAuth();
       console.error('Pi Login Error:', err?.response?.data || err);
@@ -328,10 +330,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setError(null);
   };
 
-  const clearError = () => {
-    setError(null);
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -343,7 +341,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         loginWithPi,
         logout,
         refreshAuth,
-        clearError,
+        clearError: () => setError(null),
       }}
     >
       {children}
